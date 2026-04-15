@@ -8,8 +8,7 @@ export default function SearchBar() {
           <i className="fa-solid fa-location-dot"></i>
           <input
             type="text"
-            placeholder="Where are you going?"
-            value={"Bạn muốn đi đâu?"}
+            placeholder="Bạn muốn đi đâu?"
             className="form-control border-0"
             style={{ outline: "none" }}
           />
@@ -19,7 +18,7 @@ export default function SearchBar() {
           <i className="fa fa-calendar"></i>
           <input
             type="date"
-            value={"dd/mm/yyyy"}
+            placeholder="dd/mm/yyyy"
             className="form-control border-0"
             style={{ outline: "none" }}
           />
@@ -30,7 +29,7 @@ export default function SearchBar() {
           <i className="fa fa-calendar"></i>
           <input
             type="date"
-            value={"dd/mm/yyyy"}
+            placeholder="dd/mm/yyyy"
             className="form-control border-0"
             style={{ outline: "none" }}
           />
@@ -42,7 +41,6 @@ export default function SearchBar() {
           <input
             type="number"
             placeholder="Số lượng"
-            value={""}
             min="1"
             className="form-control border-0"
             style={{ outline: "none" }}
