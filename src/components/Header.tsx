@@ -24,7 +24,7 @@ export default function Header() {
                 </Link>
               </li>
               <li className="nav-item d-none d-md-block">
-                <Link to="/experience" className="nav-link fw-bold">
+                <Link to="/RoomList" className="nav-link fw-bold">
                   Trải nghiệm
                 </Link>
               </li>
@@ -36,9 +36,7 @@ export default function Header() {
             </ul>
           </div>
 
-          {/* Right Menu */}
           <div className="collapse navbar-collapse" id="navbarContent">
-            {/* Navigation Menu */}
             <ul className="navbar-nav ms-auto align-items-center gap-3">
               <li className="nav-item dropdown">
                 <button
