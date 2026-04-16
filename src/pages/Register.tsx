@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { userService } from "../api/roomApi";
+import { userService } from "../api/api";
 
 export default function Register() {
   const [formData, setFormData] = useState({

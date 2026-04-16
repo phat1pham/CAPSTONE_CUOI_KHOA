@@ -13,6 +13,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import RoomList from "./pages/RoomList";
+import Profile from "./pages/Profile"
 
 createRoot(document.getElementById("root")).render(
   <Router>
@@ -23,6 +24,7 @@ createRoot(document.getElementById("root")).render(
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/roomList" element={<RoomList />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
       <Footer />
     </div>
