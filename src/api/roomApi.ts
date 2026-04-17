@@ -17,3 +17,11 @@ export const searchLocation = (keyword: string) => {
     }
   });
 };
+
+export const getCommentByRoom = (roomId: number) => {
+  return axiosClient.get(`/binh-luan/lay-binh-luan-theo-phong/${roomId}`);
+};
+
+export const addComment = (data: any) => {
+  return axiosClient.post("/binh-luan", data);
+};

@@ -1,12 +1,23 @@
 export interface Room {
-  id: number,
-  tenPhong: string;
-  giaTien: number;
-  hinhAnh: string;
-  moTa: string;
-  tenViTri: string;
-  tinhThanh: string;
-  quocGia: string;
+  id: number
+  tenPhong: string
+  khach: number
+  phongNgu: number
+  giuong: number
+  phongTam: number
+  moTa: string
+  giaTien: number
+  mayGiat: boolean
+  banLa: boolean
+  tivi: boolean
+  dieuHoa: boolean
+  wifi: boolean
+  bep: boolean
+  doXe: boolean
+  hoBoi: boolean
+  banUi: boolean
+  hinhAnh: string
+  maViTri: number
 }
 
 export interface Location {
@@ -16,4 +27,13 @@ export interface Location {
   quocGia: string;
 }
 
-
+export interface Comment {
+  id: number
+  maPhong: number
+  maNguoiBinhLuan: number
+  ngayBinhLuan: string
+  noiDung: string
+  saoBinhLuan: number
+  tenNguoiBinhLuan: string
+  avatar: string
+}

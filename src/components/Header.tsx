@@ -33,7 +33,7 @@ export default function Header() {
                 </Link>
               </li>
               <li className="nav-item d-none d-md-block">
-                <Link to="/RoomList" className="nav-link fw-bold">
+                <Link to="/RoomDetail" className="nav-link fw-bold">
                   Trải nghiệm
                 </Link>
               </li>

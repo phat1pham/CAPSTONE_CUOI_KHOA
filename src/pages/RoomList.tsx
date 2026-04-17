@@ -22,7 +22,6 @@ const RoomList = () => {
 return (
   <div className="container-fluid mt-4">
 
-    {/* Search Bar */}
     <div className="mb-4">
       <SearchBar />
     </div>
