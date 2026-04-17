@@ -1,57 +1,107 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { searchLocation } from "../api/roomApi";
+import { useNavigate } from "react-router-dom";
+import type { Location } from "../types/room.type";
 
 export default function SearchBar() {
+  const [keyword, setKeyword] = useState("");
+  const [locations, setLocations] = useState<Location[]>([]);
+  const [showDropdown, setShowDropdown] = useState(false);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+  if (!keyword.trim()) {
+    setLocations([]);
+    return;
+  }
+
+  const delay = setTimeout(() => {
+    searchLocation(keyword)
+      .then((res) => {
+
+        const data = res.data.content || [];
+
+        const filtered = data.filter((item: Location) =>
+          `${item.tenViTri} ${item.tinhThanh}`
+            .toLowerCase()
+            .includes(keyword.toLowerCase())
+        );
+
+        setLocations(filtered);
+
+      })
+      .catch(() => setLocations([]));
+  }, 400);
+
+  return () => clearTimeout(delay);
+}, [keyword]);
+
+  const handleSelect = (item: Location) => {
+    navigate(`/roomList/${item.id}`);
+    setShowDropdown(false);
+    setKeyword(item.tenViTri);
+  };
+
   return (
-    <form className="w-100">
-      <div className="d-none d-md-flex search-bar rounded-pill bg-white gap-0">
-        <div className="flex-grow-1 d-flex align-items-center ps-3 pe-3 border-end">
-          <i className="fa-solid fa-location-dot"></i>
+    <div className="d-flex justify-content-center mt-3">
+      <div className="bg-white shadow rounded-pill p-2 d-flex w-75">
+
+        <div className="flex-fill position-relative px-3 border-end">
+          <small className="fw-bold">Địa điểm</small>
+
           <input
             type="text"
-            placeholder="Bạn muốn đi đâu?"
-            className="form-control border-0"
-            style={{ outline: "none" }}
+            className="form-control border-0 p-0"
+            placeholder="Bạn sẽ đi đâu?"
+            value={keyword}
+            onFocus={() => setShowDropdown(true)}
+            onChange={(e) => setKeyword(e.target.value)}
           />
+
+          {showDropdown && keyword && locations.length > 0 && (
+            <div className="dropdown-menu show w-100 mt-3 shadow rounded-4">
+
+              {locations.map((item) => (
+                <button
+                  key={item.id}
+                  className="dropdown-item"
+                  onClick={() => handleSelect(item)}
+                >
+                  <i className="fa fa-location-dot me-2"></i>
+                  {item.tenViTri} - {item.tinhThanh}
+                </button>
+              ))}
+
+            </div>
+          )}
+
         </div>
 
-        <div className="flex-grow-1 d-flex align-items-center ps-3 pe-3 border-end">
-          <i className="fa fa-calendar"></i>
-          <input
-            type="date"
-            placeholder="dd/mm/yyyy"
-            className="form-control border-0"
-            style={{ outline: "none" }}
-          />
+        <div className="flex-fill px-3 border-end">
+          <small className="fw-bold">Nhận phòng</small>
+          <input type="date" className="form-control border-0 p-0"/>
         </div>
 
-        {/* Check-out Date */}
-        <div className="flex-grow-1 d-flex align-items-center ps-3 pe-3 border-end">
-          <i className="fa fa-calendar"></i>
-          <input
-            type="date"
-            placeholder="dd/mm/yyyy"
-            className="form-control border-0"
-            style={{ outline: "none" }}
-          />
+        <div className="flex-fill px-3 border-end">
+          <small className="fw-bold">Trả phòng</small>
+          <input type="date" className="form-control border-0 p-0"/>
         </div>
 
-        {/* Guests */}
-        <div className="flex-grow-1 d-flex align-items-center ps-3 pe-3 border-end">
-          <i className="fa fa-users"></i>
+        <div className="flex-fill px-3">
+          <small className="fw-bold">Khách</small>
           <input
             type="number"
-            placeholder="Số lượng"
-            min="1"
-            className="form-control border-0"
-            style={{ outline: "none" }}
+            className="form-control border-0 p-0"
+            placeholder="Thêm khách"
           />
         </div>
 
-        {/* Search Button */}
-        <button type="submit" className="btn btn-airbnb px-4 rounded-pill m-1">
+        <button className="btn btn-danger rounded-circle ms-2">
           <i className="fa fa-search"></i>
         </button>
+
       </div>
-    </form>
+    </div>
   );
 }
