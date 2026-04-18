@@ -17,12 +17,12 @@ export default function Home() {
       </div>
 
       <div className="container-lg py-5">
-        <h2 className="display-5 fw-bold mb-4">Khám phá Airbnb</h2>
+        <h2 className="display-5 fw-bold mb-4">Khám phá nhưng điểm đến gần đây</h2>
       </div>
 
       <div className="bg-light py-5">
         <div className="container-lg">
-          <h2 className="display-5 fw-bold mb-4">Khám phá trải nghiệm Airbnb</h2>
+          <h2 className="display-5 fw-bold mb-4">Ở bất cứ đâu</h2>
           <div className="row g-4">
             <div className="col-md-4">
               <div className="card h-100 border-0">
