@@ -18,3 +18,16 @@ export interface ApiResponse<T> {
   data?: T;
 }
 
+export interface RoomList {
+  id: string;
+  tenViTri: string;
+  tinhThanh: string;
+  quocGia: string;
+  hinhAnh: string;
+}
+
+export interface RoomSearchResult {
+  pageIndex: number;
+  pageSize: number;
+  keyword: string;
+}

@@ -1,5 +1,5 @@
 import axiosClient from "./Axios";
-import type { User, ApiResponse } from "../types/type";
+import type { User, ApiResponse, RoomList } from "../types/type";
 
 // User Services
 export const userService = {
@@ -31,11 +31,26 @@ export const userService = {
   },
 
   updateProfile: async (data: Partial<User>): Promise<User> => {
-    const response = await axiosClient.put<ApiResponse<User>>(`/users/${data.id}`, data);
+    const response = await axiosClient.put<ApiResponse<User>>(
+      `/users/${data.id}`,
+      data,
+    );
     return response.data.content!;
   },
 
   logout: (): void => {
     localStorage.removeItem("token");
+  },
+};
+
+export const roomService = {
+  getAllRooms: async (params?: any): Promise<RoomList[]> => {
+    const response = await axiosClient.get<ApiResponse<RoomList[]>>("/vi-tri/phan-trang-tim-kiem", {
+    params: {
+      pageIndex: 1,
+      pageSize: 8
+    }
+  });
+    return response.data.content || [];
   },
 };

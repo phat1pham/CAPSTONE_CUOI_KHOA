@@ -14,7 +14,6 @@ export default function Profile() {
   useEffect(() => {
     const userstr = localStorage.getItem("user");
     const userid = userstr ? JSON.parse(userstr).id : null;
-
     loadProfile(userid);
   }, []);
 
