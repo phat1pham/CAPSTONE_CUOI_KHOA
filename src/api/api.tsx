@@ -1,6 +1,6 @@
 import axiosClient from "./Axios";
-import type { User, ApiResponse, RoomList } from "../types/type";
-
+import type { User, ApiResponse } from "../types/type";
+import type { Pagination } from "../types/api.type";
 // User Services
 export const userService = {
   login: async (
@@ -31,10 +31,7 @@ export const userService = {
   },
 
   updateProfile: async (data: Partial<User>): Promise<User> => {
-    const response = await axiosClient.put<ApiResponse<User>>(
-      `/users/${data.id}`,
-      data,
-    );
+    const response = await axiosClient.put<ApiResponse<User>>(`/users/${data.id}`, data);
     return response.data.content!;
   },
 
@@ -43,14 +40,18 @@ export const userService = {
   },
 };
 
-export const roomService = {
-  getAllRooms: async (params?: any): Promise<RoomList[]> => {
-    const response = await axiosClient.get<ApiResponse<RoomList[]>>("/vi-tri/phan-trang-tim-kiem", {
-    params: {
-      pageIndex: 1,
-      pageSize: 8
+export const getUserPagination = (
+  page: number,
+  keyword: string = ""
+) => {
+  return axiosClient.get<ApiResponse<Pagination<User>>>(
+    "/users/phan-trang-tim-kiem",
+    {
+      params: {
+        pageIndex: page,
+        pageSize: 10,
+        keyword: keyword
+      }
     }
-  });
-    return response.data.content || [];
-  },
+  );
 };
