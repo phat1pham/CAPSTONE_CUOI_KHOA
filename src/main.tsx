@@ -14,9 +14,9 @@ import Register from "./pages/Register";
 import RoomList from "./pages/RoomList";
 import Profile from "./pages/Profile";
 import RoomDetail from "./pages/RoomDetail";
-// import AdminLayout from "./pages/Admin/AdminLayout";
-// import RoomAdmin from "./pages/Admin/RoomAdmin";
-// import UserAdmin from "./pages/Admin/UserAdmin";
+import AdminLayout from "./pages/Admin/AdminLayout";
+import RoomAdmin from "./pages/Admin/RoomAdmin";
+import UserAdmin from "./pages/Admin/UserAdmin";
 
 createRoot(document.getElementById("root")!).render(
   <Router>
@@ -39,10 +39,10 @@ createRoot(document.getElementById("root")!).render(
           </div>
         }
       />
-      {/* <Route path="/admin" element={<AdminLayout />}>
+      <Route path="/admin" element={<AdminLayout />}>
         <Route path="users" element={<UserAdmin />} />
         <Route path="rooms" element={<RoomAdmin />} />
-      </Route> */}
+      </Route>
     </Routes>
   </Router>
 );
