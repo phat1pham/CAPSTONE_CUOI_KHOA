@@ -45,12 +45,28 @@ export const userService = {
 
 export const roomService = {
   getAllRooms: async (params?: any): Promise<RoomList[]> => {
-    const response = await axiosClient.get<ApiResponse<RoomList[]>>("/vi-tri/phan-trang-tim-kiem", {
-    params: {
-      pageIndex: 1,
-      pageSize: 8
-    }
-  });
+    const response = await axiosClient.get<ApiResponse<RoomList[]>>(
+      "/vi-tri/phan-trang-tim-kiem",
+      {
+        params: {
+          pageIndex: 1,
+          pageSize: 8,
+        },
+      },
+    );
     return response.data.content || [];
   },
+};
+
+export const getUserPagination = (page: number, keyword: string = "") => {
+  return axiosClient.get<ApiResponse<Pagination<User>>>(
+    "/users/phan-trang-tim-kiem",
+    {
+      params: {
+        pageIndex: page,
+        pageSize: 10,
+        keyword: keyword,
+      },
+    },
+  );
 };

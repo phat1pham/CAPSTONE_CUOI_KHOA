@@ -70,7 +70,7 @@ export default function Header() {
                             Hồ sơ
                           </Link>
                         </li>
-                        <li>
+                        <li>  
                           <Link to="/bookings" className="dropdown-item">
                             Đặt phòng của tôi
                           </Link>
