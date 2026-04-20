@@ -25,9 +25,3 @@ export interface RoomList {
   quocGia: string;
   hinhAnh: string;
 }
-
-export interface RoomSearchResult {
-  pageIndex: number;
-  pageSize: number;
-  keyword: string;
-}

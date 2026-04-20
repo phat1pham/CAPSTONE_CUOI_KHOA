@@ -34,7 +34,7 @@ export default function RoomCard() {
   if (rooms.length === 0) {
     return (
       <div className="text-center py-5 text-muted">
-        Không có phòng nào để hiển thị.
+        {/* Không có phòng nào để hiển thị. */}
       </div>
     );
   }
