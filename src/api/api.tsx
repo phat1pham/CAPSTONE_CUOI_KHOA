@@ -1,5 +1,5 @@
 import axiosClient from "./Axios";
-import type { User, ApiResponse, RoomList } from "../types/type";
+import type { User, ApiResponse } from "../types/type";
 
 // User Services
 export const userService = {
@@ -53,4 +53,20 @@ export const roomService = {
   });
     return response.data.content || [];
   },
+};
+
+export const getUserPagination = (
+  page: number,
+  keyword: string = ""
+) => {
+  return axiosClient.get<ApiResponse<Pagination<User>>>(
+    "/users/phan-trang-tim-kiem",
+    {
+      params: {
+        pageIndex: page,
+        pageSize: 10,
+        keyword: keyword
+      }
+    }
+  );
 };
