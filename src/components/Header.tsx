@@ -7,7 +7,9 @@ export default function Header() {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
-
+  const userstr = localStorage.getItem("user");
+  const userRole = userstr ? JSON.parse(userstr).role : null;
+  
   const handleLogout = () => {
     localStorage.removeItem("token");
     navigate("/login");
@@ -73,6 +75,13 @@ export default function Header() {
                             Đặt phòng của tôi
                           </Link>
                         </li>
+                        {userRole?.toUpperCase() === "ADMIN" && (
+                          <li>
+                            <Link to="/admin" className="dropdown-item">
+                              Dashboard
+                            </Link>
+                          </li>
+                        )}
                         <li>
                           <hr className="dropdown-divider" />
                         </li>
