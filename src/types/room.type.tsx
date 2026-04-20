@@ -37,3 +37,11 @@ export interface Comment {
   tenNguoiBinhLuan: string
   avatar: string
 }
+
+export interface CommentCreate {
+  maPhong: number;
+  maNguoiBinhLuan: number;
+  ngayBinhLuan: string;
+  noiDung: string;
+  saoBinhLuan: number;
+}

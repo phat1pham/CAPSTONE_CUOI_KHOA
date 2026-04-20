@@ -24,7 +24,6 @@ export default function Header() {
             Airbnb
           </Link>
 
-          {/* Pages Menu */}
           <div className="collapse navbar-collapse" id="navbarPages">
             <ul className="navbar-nav ms-auto align-items-center gap-3">
               <li className="nav-item d-none d-md-block">
