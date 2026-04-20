@@ -1,6 +1,6 @@
 import axiosClient from "./Axios";
 import type { User, ApiResponse } from "../types/type";
-
+import type { Pagination } from "../types/api.type";
 // User Services
 export const userService = {
   login: async (
@@ -38,4 +38,20 @@ export const userService = {
   logout: (): void => {
     localStorage.removeItem("token");
   },
+};
+
+export const getUserPagination = (
+  page: number,
+  keyword: string = ""
+) => {
+  return axiosClient.get<ApiResponse<Pagination<User>>>(
+    "/users/phan-trang-tim-kiem",
+    {
+      params: {
+        pageIndex: page,
+        pageSize: 10,
+        keyword: keyword
+      }
+    }
+  );
 };

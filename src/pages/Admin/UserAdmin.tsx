@@ -1,106 +1,213 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getUserPagination } from "../../api/api";
+import type { User } from "../../types/type";
 
 const UserAdmin = () => {
-
+  const [users, setUsers] = useState<User[]>([]);
+  const [page, setPage] = useState(1);
   const [keyword, setKeyword] = useState("");
+  const [total, setTotal] = useState(0);
+
+  const fetchUsers = () => {
+    getUserPagination(page, keyword)
+      .then((res) => {
+        setUsers(res.data.content?.data || []);
+        setTotal(res.data.content?.totalRow || 0);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  useEffect(() => {
+    fetchUsers();
+  }, [page]);
+
+  const handleSearch = () => {
+    setPage(1);
+    fetchUsers();
+  };
+
+  const totalPage = Math.ceil(total / 10);
+
+  const getPages = () => {
+    const pages = [];
+
+    let start = Math.max(1, page - 2);
+    let end = Math.min(totalPage, page + 2);
+
+    if (start > 1) {
+      pages.push(1);
+      if (start > 2) pages.push("...");
+    }
+
+    for (let i = start; i <= end; i++) {
+      pages.push(i);
+    }
+
+    if (end < totalPage) {
+      if (end < totalPage - 1) pages.push("...");
+      pages.push(totalPage);
+    }
+
+    return pages;
+  };
 
   return (
-    <div>
+    <div className="container-fluid">
 
-      <div className="d-flex justify-content-between mb-3">
-        <h4>Quản lý người dùng</h4>
+      {/* Header */}
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <h3>Quản lý người dùng</h3>
 
         <button className="btn btn-primary">
-          Thêm quản trị viên
+          + Thêm người dùng
         </button>
       </div>
 
       {/* Search */}
-      <div className="d-flex mb-3">
+      <div className="card shadow-sm mb-3">
+        <div className="card-body d-flex gap-2">
 
-        <input
-          type="text"
-          className="form-control me-2"
-          placeholder="Nhập tài khoản hoặc họ tên"
-          value={keyword}
-          onChange={(e) => setKeyword(e.target.value)}
-        />
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Tìm kiếm người dùng..."
+            value={keyword}
+            onChange={(e) => setKeyword(e.target.value)}
+          />
 
-        <button className="btn btn-outline-dark">
-          Tìm
-        </button>
+          <button
+            className="btn btn-dark"
+            onClick={handleSearch}
+          >
+            Tìm kiếm
+          </button>
 
+        </div>
       </div>
 
       {/* Table */}
-      <table className="table table-bordered">
+      <div className="card shadow-sm">
 
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Tên</th>
-            <th>Avatar</th>
-            <th>Email</th>
-            <th>Role</th>
-            <th>Action</th>
-          </tr>
-        </thead>
+        <div className="table-responsive">
 
-        <tbody>
+          <table className="table table-hover align-middle mb-0">
 
-          <tr>
-            <td>1</td>
-            <td>Admin</td>
+            <thead className="table-light">
+              <tr>
+                <th>ID</th>
+                <th>Avatar</th>
+                <th>Tên</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Role</th>
+                <th>Hành động</th>
+              </tr>
+            </thead>
 
-            <td>
-              <img
-                src="https://i.pravatar.cc/40"
-                className="rounded-circle"
-              />
-            </td>
+            <tbody>
 
-            <td>admin@gmail.com</td>
-            <td>Admin</td>
+              {users.map((user) => (
+                <tr key={user.id}>
 
-            <td>
-              <button className="btn btn-info btn-sm me-2">
-                Xem
-              </button>
+                  <td>{user.id}</td>
 
-              <button className="btn btn-warning btn-sm me-2">
-                Sửa
-              </button>
+                  <td>
+                    <img
+                      src={
+                        user.avatar ||
+                        "https://i.pravatar.cc/40"
+                      }
+                      width={40}
+                      height={40}
+                      className="rounded-circle"
+                    />
+                  </td>
 
-              <button className="btn btn-danger btn-sm">
-                Xóa
-              </button>
-            </td>
+                  <td>{user.name}</td>
 
-          </tr>
+                  <td>{user.email}</td>
 
-        </tbody>
+                  <td>{user.phone}</td>
 
-      </table>
+                  <td>
+                    <span
+                      className={
+                        user.role === "admin"
+                          ? "badge bg-danger"
+                          : "badge bg-secondary"
+                      }
+                    >
+                      {user.role}
+                    </span>
+                  </td>
 
-      {/* Pagination */}
-      <div className="d-flex justify-content-center">
+                  <td>
+                    <button className="btn btn-sm btn-info me-2">
+                      Xem
+                    </button>
 
+                    <button className="btn btn-sm btn-warning me-2">
+                      Sửa
+                    </button>
+
+                    <button className="btn btn-sm btn-danger">
+                      Xóa
+                    </button>
+                  </td>
+
+                </tr>
+              ))}
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
+      <div className="d-flex justify-content-center mt-4">
         <ul className="pagination">
 
-          <li className="page-item">
-            <button className="page-link">1</button>
+          {/* Prev */}
+          <li className={`page-item ${page === 1 ? "disabled" : ""}`}>
+            <button
+              className="page-link"
+              onClick={() => setPage(page - 1)}
+            >
+              Prev
+            </button>
           </li>
 
-          <li className="page-item">
-            <button className="page-link">2</button>
-          </li>
+          {getPages().map((p, index) => (
+            <li
+              key={index}
+              className={`page-item ${page === p ? "active" : ""
+                } ${p === "..." ? "disabled" : ""}`}
+            >
+              <button
+                className="page-link"
+                onClick={() => typeof p === "number" && setPage(p)}
+              >
+                {p}
+              </button>
+            </li>
+          ))}
 
-          <li className="page-item">
-            <button className="page-link">3</button>
+          {/* Next */}
+          <li
+            className={`page-item ${page === totalPage ? "disabled" : ""
+              }`}
+          >
+            <button
+              className="page-link"
+              onClick={() => setPage(page + 1)}
+            >
+              Next
+            </button>
           </li>
 
         </ul>
-
       </div>
 
     </div>
