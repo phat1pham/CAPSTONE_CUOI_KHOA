@@ -79,7 +79,7 @@ const UserAdmin = () => {
             className="btn btn-dark"
             onClick={handleSearch}
           >
-            Tìm kiếm
+            Tìm
           </button>
 
         </div>

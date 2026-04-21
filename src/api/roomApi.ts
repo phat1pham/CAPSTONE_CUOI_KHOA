@@ -42,3 +42,23 @@ export const addComment = (data: CommentCreate) => {
     data
   );
 };
+
+export const getRoomPagination = (
+  page: number,
+  keyword: string = ""
+) => {
+  return axiosClient.get(
+    "/phong-thue/phan-trang-tim-kiem",
+    {
+      params: {
+        pageIndex: page,
+        pageSize: 10,
+        keyword
+      }
+    }
+  );
+};
+
+export const getLocation = () => {
+  return axiosClient.get("/vi-tri");
+};
