@@ -64,7 +64,7 @@ const RoomDetail = () => {
     return (
         <div className="container mt-4">
 
-            <div className="row">
+            <div className="row g-4">
                 <h2>{room.tenPhong}</h2>
 
                 <img
@@ -79,7 +79,7 @@ const RoomDetail = () => {
                 />
 
                 {/* LEFT */}
-                <div className="col-lg-8">
+                <div className="col-12 col-lg-8">
 
                     <p className="text-muted">
                         {room.khach} khách · {room.phongNgu} phòng ngủ · {room.giuong} giường · {room.phongTam} phòng tắm
@@ -115,7 +115,7 @@ const RoomDetail = () => {
 
                     <h4>Tiện nghi</h4>
 
-                    <div className="row">
+                    <div className="row g-4">
 
                         {room.wifi && (
                             <div className="col-md-6 mb-2">
@@ -224,32 +224,93 @@ const RoomDetail = () => {
 
                 </div>
 
-                <div className="col-lg-4">
+                <div className="col-12 col-lg-4">
+                    <div className="booking-card card shadow p-4">
 
-                    <div
-                        className="card shadow p-3"
-                        style={{
-                            position: "sticky",
-                            top: "100px"
-                        }}
-                    >
-                        <h4>${room.giaTien} / đêm</h4>
-                        <input
-                            type="date"
-                            className="form-control mb-2"
-                        />
-                        <input
-                            type="date"
-                            className="form-control mb-2"
-                        />
-                        <input
-                            type="number"
-                            placeholder="Số khách"
-                            className="form-control mb-3"
-                        />
-                        <button className="btn btn-danger w-100">
+                        {/* Price */}
+
+                        <div className="d-flex justify-content-between align-items-center mb-3">
+                            <h4 className="mb-0">
+                                ${room.giaTien} <span className="fs-6 text-muted">/ đêm</span>
+                            </h4>
+                            <div>
+                                ⭐ 4.8 (18 đánh giá)
+                            </div>
+                        </div>
+
+                        {/* Date */}
+
+                        <div className="border rounded mb-3">
+
+                            <div className="row g-0">
+
+                                <div className="col-6 border-end p-2">
+                                    <label className="small text-muted">
+                                        Nhận phòng
+                                    </label>
+                                    <input
+                                        type="date"
+                                        className="form-control border-0 p-0"
+                                    />
+                                </div>
+
+                                <div className="col-6 p-2">
+                                    <label className="small text-muted">
+                                        Trả phòng
+                                    </label>
+                                    <input
+                                        type="date"
+                                        className="form-control border-0 p-0"
+                                    />
+                                </div>
+
+                            </div>
+
+                            {/* Guest */}
+
+                            <div className="border-top p-2">
+                                <label className="small text-muted">
+                                    Khách
+                                </label>
+
+                                <input
+                                    type="number"
+                                    className="form-control border-0 p-0"
+                                    placeholder="1 khách"
+                                />
+                            </div>
+
+                        </div>
+
+                        {/* Button */}
+
+                        <button className="btn btn-danger w-100 mb-3">
                             Đặt phòng
                         </button>
+
+                        <div className="text-center text-muted mb-3">
+                            Bạn vẫn chưa bị trừ tiền
+                        </div>
+
+                        {/* Price detail */}
+
+                        <div className="d-flex justify-content-between mb-2">
+                            <span>${room.giaTien} x 5 đêm</span>
+                            <span>$220</span>
+                        </div>
+
+                        <div className="d-flex justify-content-between mb-2">
+                            <span>Phí dịch vụ</span>
+                            <span>$31</span>
+                        </div>
+
+                        <hr />
+
+                        <div className="d-flex justify-content-between fw-bold">
+                            <span>Tổng</span>
+                            <span>$252</span>
+                        </div>
+
                     </div>
                 </div>
             </div>
