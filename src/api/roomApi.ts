@@ -1,4 +1,5 @@
 import axiosClient from "./Axios";
+import axios from "axios";
 import type { Room, Comment, Location } from "../types/room.type";
 import type { CommentCreate } from "../types/room.type";
 import type { ApiResponse } from "../types/api.type";
@@ -61,4 +62,12 @@ export const getRoomPagination = (
 
 export const getLocation = () => {
   return axiosClient.get("/vi-tri");
+};
+
+export const getBookingByUser = (userId: number) => {
+  return axiosClient.get(`/dat-phong/lay-theo-nguoi-dung/${userId}`);
+};
+
+export const bookingRoom = (data: any) => {
+  return axiosClient.post("/dat-phong", data);
 };

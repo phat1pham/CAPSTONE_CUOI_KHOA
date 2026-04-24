@@ -48,3 +48,17 @@ export interface CommentCreate {
   noiDung: string;
   saoBinhLuan: number;
 }
+export interface Booking {
+  id: number;
+  maPhong: number;
+  ngayDen: string;
+  ngayDi: string;
+  soLuongKhach: number;
+  phong?: {
+    tenPhong: string;
+    hinhAnh: string;
+    giaTien: number;
+    khach: number;
+    phongNgu: number;
+  };
+}

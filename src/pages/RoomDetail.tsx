@@ -5,6 +5,8 @@ import type { Room } from "../types/room.type";
 import { getCommentByRoom } from "../api/roomApi";
 import type { Comment } from "../types/room.type";
 import { addComment } from "../api/roomApi";
+import { useNavigate } from "react-router-dom";
+import { bookingRoom } from "../api/roomApi"
 
 const RoomDetail = () => {
     const { id } = useParams();
@@ -13,6 +15,11 @@ const RoomDetail = () => {
     const [showMore, setShowMore] = useState(false);
     const [noiDung, setNoiDung] = useState("");
     const [sao, setSao] = useState(5);
+    const [hover, setHover] = useState(0);
+    const navigate = useNavigate();
+    const [ngayDen, setNgayDen] = useState("");
+    const [ngayDi, setNgayDi] = useState("");
+    const [soLuongKhach, setSoLuongKhach] = useState(1);
 
     useEffect(() => {
         if (!id) return;
@@ -39,27 +46,82 @@ const RoomDetail = () => {
     const handleComment = () => {
         const data = {
             maPhong: Number(id),
-            maNguoiBinhLuan: 1, // tạm để cứng
+            maNguoiBinhLuan: 1, 
             ngayBinhLuan: new Date().toISOString(),
             noiDung: noiDung,
             saoBinhLuan: sao
         };
-
         addComment(data)
             .then(() => {
-
                 getCommentByRoom(Number(id)).then((res) => {
                     setComments(res.data.content);
                 });
-
                 setNoiDung("");
                 setSao(5);
-
             })
             .catch((err) => console.log(err));
     };
 
     if (!room) return <div>Loading...</div>;
+    const data = {
+        tenPhong: room.tenPhong || "Chưa có tên phòng",
+        hinhAnh: room.hinhAnh || "https://via.placeholder.com/800x400",
+        moTa: room.moTa || "Chưa có mô tả",
+        khach: room.khach ?? 0,
+        phongNgu: room.phongNgu ?? 0,
+        giuong: room.giuong ?? 0,
+        phongTam: room.phongTam ?? 0,
+        giaTien: room.giaTien ?? 0,
+    };
+    const averageRating =
+        comments.length > 0
+            ? (
+                comments.reduce(
+                    (total, item) =>
+                        total + item.saoBinhLuan,
+                    0
+                ) / comments.length
+            ).toFixed(1)
+            : 0;
+    const handleBooking = async () => {
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+            alert("Vui lòng đăng nhập");
+            navigate("/login");
+            return;
+        }
+
+        const userStr = localStorage.getItem("user");
+        const user = userStr ? JSON.parse(userStr) : null;
+
+        if (!user) return;
+
+        if (!ngayDen || !ngayDi) {
+            alert("Vui lòng chọn ngày");
+            return;
+        }
+
+        const data = {
+            maPhong: Number(id),
+            ngayDen,
+            ngayDi,
+            soLuongKhach,
+            maNguoiDung: user.id,
+        };
+
+        try {
+            await bookingRoom(data);
+
+            alert("Đặt phòng thành công 🎉");
+
+            navigate("/profile");
+
+        } catch (err) {
+            console.log(err);
+            alert("Đặt phòng thất bại");
+        }
+    };
 
     return (
         <div className="container mt-4">
@@ -68,8 +130,8 @@ const RoomDetail = () => {
                 <h2>{room.tenPhong}</h2>
 
                 <img
-                    src={room.hinhAnh}
-                    alt={room.tenPhong}
+                    src={data.hinhAnh || undefined}
+                    alt={data.tenPhong}
                     className="img-fluid rounded mb-4"
                     style={{
                         width: "100%",
@@ -80,13 +142,10 @@ const RoomDetail = () => {
 
                 {/* LEFT */}
                 <div className="col-12 col-lg-8">
-
                     <p className="text-muted">
-                        {room.khach} khách · {room.phongNgu} phòng ngủ · {room.giuong} giường · {room.phongTam} phòng tắm
+                        {data.khach} khách · {data.phongNgu} phòng ngủ · {data.giuong} giường · {data.phongTam} phòng tắm
                     </p>
-
                     <hr />
-
                     <div className="mb-3">
                         <p>🏠 Toàn bộ nhà</p>
                         <p>🧹 Vệ sinh tăng cường</p>
@@ -100,92 +159,89 @@ const RoomDetail = () => {
 
                     <p>
                         {showMore
-                            ? room.moTa
-                            : room.moTa?.slice(0, 150)}
+                            ? data.moTa
+                            : data.moTa.slice(0, 150)}
                     </p>
 
-                    <button
-                        className="btn btn-link p-0"
-                        onClick={() => setShowMore(!showMore)}
-                    >
-                        {showMore ? "Thu gọn" : "Hiển thị thêm"}
-                    </button>
-
+                    {data.moTa.length > 150 && (
+                        <button
+                            className="btn btn-link p-0"
+                            onClick={() => setShowMore(!showMore)}
+                        >
+                            {showMore ? "Thu gọn" : "Hiển thị thêm"}
+                        </button>
+                    )}
                     <hr />
-
                     <h4>Tiện nghi</h4>
-
                     <div className="row g-4">
 
-                        {room.wifi && (
-                            <div className="col-md-6 mb-2">
-                                📶 Wifi
-                            </div>
-                        )}
-
-                        {room.dieuHoa && (
-                            <div className="col-md-6 mb-2">
-                                ❄️ Điều hoà
-                            </div>
-                        )}
-
-                        {room.tivi && (
-                            <div className="col-md-6 mb-2">
-                                📺 TV
-                            </div>
-                        )}
-
-                        {room.bep && (
-                            <div className="col-md-6 mb-2">
-                                🍳 Bếp
-                            </div>
-                        )}
-
-                        {room.doXe && (
-                            <div className="col-md-6 mb-2">
-                                🚗 Đỗ xe
-                            </div>
-                        )}
-
-                        {room.hoBoi && (
-                            <div className="col-md-6 mb-2">
-                                🏊 Hồ bơi
-                            </div>
-                        )}
+                        {room.wifi && <div className="col-md-6">📶 Wifi</div>}
+                        {room.dieuHoa && <div className="col-md-6">❄️ Điều hoà</div>}
+                        {room.tivi && <div className="col-md-6">📺 TV</div>}
+                        {room.bep && <div className="col-md-6">🍳 Bếp</div>}
+                        {room.doXe && <div className="col-md-6">🚗 Đỗ xe</div>}
+                        {room.hoBoi && <div className="col-md-6">🏊 Hồ bơi</div>}
 
                     </div>
-
                     <hr />
+                    <h4 className="mb-4">
+                        ⭐ {averageRating} · {comments.length} đánh giá
+                    </h4>
 
-                    <h4>Bình luận</h4>
+                    <div className="card shadow-sm p-3 mb-4">
 
-                    <div className="card p-3 mb-4">
+                        <div className="d-flex align-items-center mb-3">
+                            <img
+                                src="https://i.pravatar.cc/40"
+                                className="rounded-circle me-2"
+                            />
+
+                            <strong>Viết đánh giá</strong>
+                        </div>
 
                         <textarea
-                            className="form-control mb-2"
-                            placeholder="Nhập bình luận..."
+                            className="form-control mb-3"
+                            rows={3}
+                            placeholder="Chia sẻ trải nghiệm của bạn..."
                             value={noiDung}
                             onChange={(e) => setNoiDung(e.target.value)}
                         />
 
-                        <select
-                            className="form-select mb-2"
-                            value={sao}
-                            onChange={(e) => setSao(Number(e.target.value))}
-                        >
-                            <option value="5">⭐⭐⭐⭐⭐</option>
-                            <option value="4">⭐⭐⭐⭐</option>
-                            <option value="3">⭐⭐⭐</option>
-                            <option value="2">⭐⭐</option>
-                            <option value="1">⭐</option>
-                        </select>
+                        <div className="d-flex justify-content-between align-items-center">
 
-                        <button
-                            className="btn btn-danger"
-                            onClick={handleComment}
-                        >
-                            Gửi bình luận
-                        </button>
+                            <div className="d-flex align-items-center gap-2">
+
+                                {[1, 2, 3, 4, 5].map((star) => (
+                                    <span
+                                        key={star}
+                                        style={{
+                                            fontSize: "24px",
+                                            cursor: "pointer",
+                                            color: star <= (hover || sao) ? "#ffc107" : "#e4e5e9",
+                                            transition: "0.2s"
+                                        }}
+                                        onClick={() => setSao(star)}
+                                        onMouseEnter={() => setHover(star)}
+                                        onMouseLeave={() => setHover(0)}
+                                    >
+                                        ★
+                                    </span>
+                                ))}
+
+                                <span className="ms-2 text-muted">
+                                    {sao}/5
+                                </span>
+
+                            </div>
+
+                            <button
+                                className="btn btn-danger"
+                                onClick={handleComment}
+                            >
+                                Gửi đánh giá
+                            </button>
+
+                        </div>
 
                     </div>
 
@@ -214,7 +270,13 @@ const RoomDetail = () => {
                             </div>
 
                             <div>
-                                ⭐ {item.saoBinhLuan}
+                                {[1, 2, 3, 4, 5].map((star) => (
+                                    <span key={star} style={{
+                                        color: star <= item.saoBinhLuan ? "#ffc107" : "#e4e5e9"
+                                    }}>
+                                        ★
+                                    </span>
+                                ))}
                             </div>
 
                             <p>{item.noiDung}</p>
@@ -226,20 +288,15 @@ const RoomDetail = () => {
 
                 <div className="col-12 col-lg-4">
                     <div className="booking-card card shadow p-4">
-
-                        {/* Price */}
-
                         <div className="d-flex justify-content-between align-items-center mb-3">
                             <h4 className="mb-0">
-                                ${room.giaTien} <span className="fs-6 text-muted">/ đêm</span>
+                                ${data.giaTien || 0}
+                                <span className="fs-6 text-muted"> / đêm</span>
                             </h4>
                             <div>
                                 ⭐ 4.8 (18 đánh giá)
                             </div>
                         </div>
-
-                        {/* Date */}
-
                         <div className="border rounded mb-3">
 
                             <div className="row g-0">
@@ -251,6 +308,8 @@ const RoomDetail = () => {
                                     <input
                                         type="date"
                                         className="form-control border-0 p-0"
+                                        value={ngayDen}
+                                        onChange={(e) => setNgayDen(e.target.value)}
                                     />
                                 </div>
 
@@ -261,39 +320,35 @@ const RoomDetail = () => {
                                     <input
                                         type="date"
                                         className="form-control border-0 p-0"
+                                        value={ngayDi}
+                                        onChange={(e) => setNgayDi(e.target.value)}
                                     />
                                 </div>
 
                             </div>
-
-                            {/* Guest */}
-
                             <div className="border-top p-2">
                                 <label className="small text-muted">
                                     Khách
                                 </label>
-
                                 <input
                                     type="number"
                                     className="form-control border-0 p-0"
-                                    placeholder="1 khách"
+                                    value={soLuongKhach}
+                                    onChange={(e) => setSoLuongKhach(Number(e.target.value))}
                                 />
                             </div>
 
                         </div>
-
-                        {/* Button */}
-
-                        <button className="btn btn-danger w-100 mb-3">
+                        <button
+                            className="btn btn-danger w-100 mb-3"
+                            onClick={handleBooking}
+                        >
                             Đặt phòng
                         </button>
 
                         <div className="text-center text-muted mb-3">
                             Bạn vẫn chưa bị trừ tiền
                         </div>
-
-                        {/* Price detail */}
-
                         <div className="d-flex justify-content-between mb-2">
                             <span>${room.giaTien} x 5 đêm</span>
                             <span>$220</span>
