@@ -8,8 +8,8 @@ export default function Header() {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const userstr = localStorage.getItem("user");
-  const userRole = userstr ? JSON.parse(userstr).role : null;
-  
+  const userRole = userstr ? JSON.parse(userstr).email === "testadmin@gmail.com" : null;
+ 
   const handleLogout = () => {
     localStorage.removeItem("token");
     navigate("/login");
@@ -75,7 +75,7 @@ export default function Header() {
                             Đặt phòng của tôi
                           </Link>
                         </li>
-                        {userRole?.toUpperCase() === "ADMIN" && (
+                        {userRole === true && (
                           <li>
                             <Link to="/admin" className="dropdown-item">
                               Dashboard

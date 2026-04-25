@@ -1,8 +1,11 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useSearchParams } from "react-router-dom";
 import { userService } from "../api/api";
 
 export default function Register() {
+  const [searchParams] = useSearchParams();
+  const defaultRole = searchParams.get("role") === "admin" ? "admin" : "user";
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -11,8 +14,9 @@ export default function Register() {
     phone: "",
     birthday: "",
     gender: true,
+    role: defaultRole,
   });
-
+  
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
@@ -23,7 +27,12 @@ export default function Register() {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: name === "gender" ? value === "true" : value,
+      [name]:
+        name === "gender"
+          ? value === "true"
+          : name === "role"
+          ? value
+          : value,
     }));
   };
 
@@ -45,7 +54,7 @@ export default function Register() {
         phone: formData.phone,
         birthday: formData.birthday,
         gender: formData.gender,
-        role: "user",
+        role: formData.role,
       });
 
       // After registration, redirect to login
@@ -56,7 +65,7 @@ export default function Register() {
       setLoading(false);
     }
   };
-
+  
   return (
     <div className="d-flex align-items-center justify-content-center min-vh-100 bg-light py-3 px-2">
       <div className="card" style={{ maxWidth: "400px", width: "100%" }}>
@@ -157,6 +166,7 @@ export default function Register() {
                 <option value="false">Nữ</option>
               </select>
             </div>
+            <input type="hidden" name="role" value={formData.role} />
             <button
               type="submit"
               className="btn btn-airbnb w-100 fw-semibold"

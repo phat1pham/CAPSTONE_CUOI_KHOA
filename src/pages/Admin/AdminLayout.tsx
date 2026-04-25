@@ -34,13 +34,6 @@ const AdminLayout = () => {
             Quản lý phòng
           </Link>
 
-          <Link
-            to="/admin/rooms"
-            className="text-decoration-none"
-          >
-            Thêm tài khoản Admin
-          </Link>
-
         </div>
       </div>
 
