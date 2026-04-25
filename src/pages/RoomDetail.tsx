@@ -46,7 +46,7 @@ const RoomDetail = () => {
     const handleComment = () => {
         const data = {
             maPhong: Number(id),
-            maNguoiBinhLuan: 1, 
+            maNguoiBinhLuan: 1,
             ngayBinhLuan: new Date().toISOString(),
             noiDung: noiDung,
             saoBinhLuan: sao
@@ -332,9 +332,10 @@ const RoomDetail = () => {
                                 </label>
                                 <input
                                     type="number"
+                                    min={1}
                                     className="form-control border-0 p-0"
                                     value={soLuongKhach}
-                                    onChange={(e) => setSoLuongKhach(Number(e.target.value))}
+                                    onChange={(e) => setSoLuongKhach(Math.max(1, Number(e.target.value)))}
                                 />
                             </div>
 
