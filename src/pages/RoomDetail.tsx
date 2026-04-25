@@ -20,6 +20,11 @@ const RoomDetail = () => {
     const [ngayDen, setNgayDen] = useState("");
     const [ngayDi, setNgayDi] = useState("");
     const [soLuongKhach, setSoLuongKhach] = useState(1);
+    const [loadingComment, setLoadingComment] = useState(false);
+    const userStr = localStorage.getItem("user");
+    const user = userStr ? JSON.parse(userStr) : null;
+    const [commentPage, setCommentPage] = useState(1);
+    const pageSize = 5;
 
     useEffect(() => {
         if (!id) return;
@@ -37,30 +42,96 @@ const RoomDetail = () => {
 
         getCommentByRoom(Number(id))
             .then((res) => {
-                setComments(res.data.content);
+                setComments(
+                    res.data.content.sort(
+                        (a: Comment, b: Comment) =>
+                            new Date(b.ngayBinhLuan).getTime() -
+                            new Date(a.ngayBinhLuan).getTime()
+                    )
+                );
             })
             .catch((err) => console.log(err));
 
     }, [id]);
 
-    const handleComment = () => {
-        const data = {
-            maPhong: Number(id),
-            maNguoiBinhLuan: 1,
-            ngayBinhLuan: new Date().toISOString(),
-            noiDung: noiDung,
-            saoBinhLuan: sao
-        };
-        addComment(data)
-            .then(() => {
-                getCommentByRoom(Number(id)).then((res) => {
-                    setComments(res.data.content);
-                });
-                setNoiDung("");
-                setSao(5);
-            })
-            .catch((err) => console.log(err));
+    const handleComment = async () => {
+        const userStr = localStorage.getItem("user");
+        const user = userStr ? JSON.parse(userStr) : null;
+
+        if (!user) {
+            alert("Vui lòng đăng nhập");
+            navigate("/login");
+            return;
+        }
+
+        if (!noiDung.trim()) {
+            alert("Vui lòng nhập nội dung");
+            return;
+        }
+
+        try {
+            setLoadingComment(true);
+
+            const payload = {
+                maPhong: Number(id),
+                maNguoiBinhLuan: user.id,
+                ngayBinhLuan: new Date().toISOString(),
+                noiDung: noiDung.trim(),
+                saoBinhLuan: sao
+            };
+
+            await addComment(payload);
+
+            const res = await getCommentByRoom(Number(id));
+
+            setComments(
+                res.data.content.sort(
+                    (a: Comment, b: Comment) =>
+                        new Date(b.ngayBinhLuan).getTime() -
+                        new Date(a.ngayBinhLuan).getTime()
+                )
+            );
+
+            setNoiDung("");
+            setSao(5);
+
+        } catch (err) {
+            console.log(err);
+        } finally {
+            setLoadingComment(false);
+        }
     };
+
+    const totalPage = Math.ceil(comments.length / pageSize);
+
+    const paginatedComments = comments.slice(
+        (commentPage - 1) * pageSize,
+        commentPage * pageSize
+    );
+
+    const getPages = () => {
+        const pages: (number | string)[] = [];
+
+        let start = Math.max(1, commentPage - 2);
+        let end = Math.min(totalPage, commentPage + 2);
+
+        if (start > 1) {
+            pages.push(1);
+            if (start > 2) pages.push("...");
+        }
+
+        for (let i = start; i <= end; i++) {
+            pages.push(i);
+        }
+
+        if (end < totalPage) {
+            if (end < totalPage - 1) pages.push("...");
+            pages.push(totalPage);
+        }
+
+        return pages;
+    };
+
 
     if (!room) return <div>Loading...</div>;
     const data = {
@@ -123,6 +194,10 @@ const RoomDetail = () => {
         }
     };
 
+    const formatDate = (date: string) => {
+        return new Date(date).toLocaleDateString("vi-VN");
+    };
+
     return (
         <div className="container mt-4">
 
@@ -139,8 +214,6 @@ const RoomDetail = () => {
                         objectFit: "cover"
                     }}
                 />
-
-                {/* LEFT */}
                 <div className="col-12 col-lg-8">
                     <p className="text-muted">
                         {data.khach} khách · {data.phongNgu} phòng ngủ · {data.giuong} giường · {data.phongTam} phòng tắm
@@ -237,8 +310,9 @@ const RoomDetail = () => {
                             <button
                                 className="btn btn-danger"
                                 onClick={handleComment}
+                                disabled={loadingComment}
                             >
-                                Gửi đánh giá
+                                {loadingComment ? "Đang gửi..." : "Gửi đánh giá"}
                             </button>
 
                         </div>
@@ -249,21 +323,19 @@ const RoomDetail = () => {
                         <p>Chưa có bình luận</p>
                     )}
 
-                    {comments.map((item) => (
+                    {paginatedComments.map((item) => (
                         <div key={item.id} className="mb-3 border-bottom pb-3">
 
                             <div className="d-flex align-items-center mb-2">
                                 <img
-                                    src={item.avatar || "https://i.pravatar.cc/40"}
-                                    alt=""
+                                    src={user?.avatar || "https://i.pravatar.cc/40"}
                                     className="rounded-circle me-2"
-                                    style={{ width: "40px", height: "40px" }}
                                 />
 
                                 <div>
                                     <strong>{item.tenNguoiBinhLuan}</strong>
                                     <div className="text-muted" style={{ fontSize: "14px" }}>
-                                        {item.ngayBinhLuan}
+                                        {formatDate(item.ngayBinhLuan)}
                                     </div>
                                 </div>
 
@@ -283,6 +355,46 @@ const RoomDetail = () => {
 
                         </div>
                     ))}
+                    <div className="d-flex justify-content-center mt-4">
+                        <ul className="pagination">
+
+                            {/* Prev */}
+                            <li className={`page-item ${commentPage === 1 ? "disabled" : ""}`}>
+                                <button
+                                    className="page-link"
+                                    onClick={() => setCommentPage(commentPage - 1)}
+                                >
+                                    Prev
+                                </button>
+                            </li>
+
+                            {getPages().map((p, index) => (
+                                <li
+                                    key={index}
+                                    className={`page-item ${commentPage === p ? "active" : ""} ${p === "..." ? "disabled" : ""
+                                        }`}
+                                >
+                                    <button
+                                        className="page-link"
+                                        onClick={() => typeof p === "number" && setCommentPage(p)}
+                                    >
+                                        {p}
+                                    </button>
+                                </li>
+                            ))}
+
+                            {/* Next */}
+                            <li className={`page-item ${commentPage === totalPage ? "disabled" : ""}`}>
+                                <button
+                                    className="page-link"
+                                    onClick={() => setCommentPage(commentPage + 1)}
+                                >
+                                    Next
+                                </button>
+                            </li>
+
+                        </ul>
+                    </div>
 
                 </div>
 

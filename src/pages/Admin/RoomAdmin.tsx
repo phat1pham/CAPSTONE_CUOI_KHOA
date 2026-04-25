@@ -163,50 +163,48 @@ const RoomAdmin = () => {
       </div>
 
       <div className="d-flex justify-content-center mt-4">
-  <ul className="pagination">
+        <ul className="pagination">
 
-    {/* Prev */}
-    <li className={`page-item ${page === 1 ? "disabled" : ""}`}>
-      <button
-        className="page-link"
-        onClick={() => setPage(page - 1)}
-      >
-        Prev
-      </button>
-    </li>
+          {/* Prev */}
+          <li className={`page-item ${page === 1 ? "disabled" : ""}`}>
+            <button
+              className="page-link"
+              onClick={() => setPage(page - 1)}
+            >
+              Prev
+            </button>
+          </li>
 
-    {getPages().map((p, index) => (
-      <li
-        key={index}
-        className={`page-item ${
-          page === p ? "active" : ""
-        } ${p === "..." ? "disabled" : ""}`}
-      >
-        <button
-          className="page-link"
-          onClick={() => typeof p === "number" && setPage(p)}
-        >
-          {p}
-        </button>
-      </li>
-    ))}
+          {getPages().map((p, index) => (
+            <li
+              key={index}
+              className={`page-item ${page === p ? "active" : ""
+                } ${p === "..." ? "disabled" : ""}`}
+            >
+              <button
+                className="page-link"
+                onClick={() => typeof p === "number" && setPage(p)}
+              >
+                {p}
+              </button>
+            </li>
+          ))}
 
-    {/* Next */}
-    <li
-      className={`page-item ${
-        page === totalPage ? "disabled" : ""
-      }`}
-    >
-      <button
-        className="page-link"
-        onClick={() => setPage(page + 1)}
-      >
-        Next
-      </button>
-    </li>
+          {/* Next */}
+          <li
+            className={`page-item ${page === totalPage ? "disabled" : ""
+              }`}
+          >
+            <button
+              className="page-link"
+              onClick={() => setPage(page + 1)}
+            >
+              Next
+            </button>
+          </li>
 
-  </ul>
-</div>
+        </ul>
+      </div>
     </div>
   );
 };
