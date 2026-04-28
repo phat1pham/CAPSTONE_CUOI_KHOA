@@ -75,3 +75,17 @@ export const bookingRoom = (data: any) => {
 export const getAllBooking = () => {
   return axiosClient.get("/dat-phong");
 };
+
+export const getLocationPagination = (page: number, keyword: string) => {
+  return axiosClient.get("/vi-tri/phan-trang-tim-kiem", {
+    params: {
+      pageIndex: page,
+      pageSize: 10,
+      keyword,
+    },
+  });
+};
+
+export const deleteLocation = (id: number) => {
+  return axiosClient.delete(`/vi-tri/${id}`);
+};

@@ -227,6 +227,48 @@ const RoomDetail = () => {
         });
     };
 
+    const colors = [
+        "#0d6efd", 
+        "#198754", 
+        "#dc3545", 
+        "#ffc107", 
+        "#6f42c1", 
+        "#fd7e14", 
+    ];
+
+    const renderAvatar = (item: Comment) => {
+        if (item.avatar) {
+            return (
+                <img
+                    src={item.avatar}
+                    className="rounded-circle me-2"
+                    style={{ width: 40, height: 40, objectFit: "cover" }}
+                    alt="avatar"
+                />
+            );
+        }
+
+        const firstChar =
+            item.tenNguoiBinhLuan?.charAt(0)?.toUpperCase() || "?";
+
+        const color = colors[item.id % colors.length];
+
+        return (
+            <div
+                className="rounded-circle me-2 d-flex align-items-center justify-content-center"
+                style={{
+                    width: 40,
+                    height: 40,
+                    backgroundColor: color,
+                    color: "#fff",
+                    fontWeight: "bold",
+                }}
+            >
+                {firstChar}
+            </div>
+        );
+    };
+
     return (
         <div className="container mt-4">
 
@@ -309,12 +351,7 @@ const RoomDetail = () => {
                         <div key={item.id} className="mb-3 border-bottom pb-3">
 
                             <div className="d-flex align-items-center mb-2">
-                                <img
-                                    src={item.avatar || "https://i.pravatar.cc/40"}
-                                    className="rounded-circle me-2"
-                                    width={40}
-                                    height={40}
-                                />
+                                {renderAvatar(item)}
 
                                 <div>
                                     <strong>{item.tenNguoiBinhLuan}</strong>

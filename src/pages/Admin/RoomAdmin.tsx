@@ -101,8 +101,6 @@ const RoomAdmin = () => {
         </div>
       </div>
 
-      {/* Table */}
-
       <div className="card">
         <table className="table table-hover">
           <thead>
@@ -165,7 +163,6 @@ const RoomAdmin = () => {
       <div className="d-flex justify-content-center mt-4">
         <ul className="pagination">
 
-          {/* Prev */}
           <li className={`page-item ${page === 1 ? "disabled" : ""}`}>
             <button
               className="page-link"

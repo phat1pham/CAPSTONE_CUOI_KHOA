@@ -19,11 +19,10 @@ const UserAdmin = () => {
 
   useEffect(() => {
     fetchUsers();
-  }, [page]);
+  }, [page, keyword]);
 
   const handleSearch = () => {
     setPage(1);
-    fetchUsers();
   };
 
   const totalPage = Math.ceil(total / 10);
@@ -51,10 +50,51 @@ const UserAdmin = () => {
     return pages;
   };
 
+  const colors = [
+  "#0d6efd", 
+  "#198754", 
+  "#dc3545", 
+  "#ffc107", 
+  "#6f42c1", 
+  "#fd7e14", 
+];
+
+const renderAvatar = (user: User) => {
+  if (user.avatar) {
+    return (
+      <img
+        src={user.avatar}
+        width={40}
+        height={40}
+        className="rounded-circle"
+        style={{ objectFit: "cover" }}
+      />
+    );
+  }
+
+  const firstChar = user.name?.charAt(0)?.toUpperCase() || "?";
+
+  const color = colors[user.id % colors.length];
+
+  return (
+    <div
+      className="rounded-circle d-flex align-items-center justify-content-center"
+      style={{
+        width: 40,
+        height: 40,
+        backgroundColor: color,
+        color: "#fff",
+        fontWeight: "bold",
+      }}
+    >
+      {firstChar}
+    </div>
+  );
+};
+
   return (
     <div className="container-fluid">
 
-      {/* Header */}
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h3>Quản lý người dùng</h3>
 
@@ -85,7 +125,6 @@ const UserAdmin = () => {
         </div>
       </div>
 
-      {/* Table */}
       <div className="card shadow-sm">
 
         <div className="table-responsive">
@@ -112,15 +151,7 @@ const UserAdmin = () => {
                   <td>{user.id}</td>
 
                   <td>
-                    <img
-                      src={
-                        user.avatar ||
-                        "https://i.pravatar.cc/40"
-                      }
-                      width={40}
-                      height={40}
-                      className="rounded-circle"
-                    />
+                    <td>{renderAvatar(user)}</td>
                   </td>
 
                   <td>{user.name}</td>
@@ -194,7 +225,7 @@ const UserAdmin = () => {
             </li>
           ))}
 
-          {/* Next */}
+
           <li
             className={`page-item ${page === totalPage ? "disabled" : ""
               }`}
