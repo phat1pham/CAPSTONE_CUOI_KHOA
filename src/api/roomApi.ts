@@ -71,3 +71,7 @@ export const getBookingByUser = (userId: number) => {
 export const bookingRoom = (data: any) => {
   return axiosClient.post("/dat-phong", data);
 };
+
+export const getAllBooking = () => {
+  return axiosClient.get("/dat-phong");
+};

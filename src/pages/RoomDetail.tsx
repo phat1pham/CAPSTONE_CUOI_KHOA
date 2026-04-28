@@ -6,7 +6,7 @@ import { getCommentByRoom } from "../api/roomApi";
 import type { Comment } from "../types/room.type";
 import { addComment } from "../api/roomApi";
 import { useNavigate } from "react-router-dom";
-import { bookingRoom } from "../api/roomApi"
+import { bookingRoom, getAllBooking } from "../api/roomApi";
 
 const RoomDetail = () => {
     const { id } = useParams();
@@ -163,39 +163,68 @@ const RoomDetail = () => {
             return;
         }
 
-        const userStr = localStorage.getItem("user");
-        const user = userStr ? JSON.parse(userStr) : null;
-
-        if (!user) return;
-
         if (!ngayDen || !ngayDi) {
             alert("Vui lòng chọn ngày");
             return;
         }
 
-        const data = {
-            maPhong: Number(id),
-            ngayDen,
-            ngayDi,
-            soLuongKhach,
-            maNguoiDung: user.id,
-        };
+        const userStr = localStorage.getItem("user");
+        const user = userStr ? JSON.parse(userStr) : null;
+
+        if (!user) return;
 
         try {
-            await bookingRoom(data);
+            // 🔥 lấy tất cả booking
+            const res = await getAllBooking();
+            const bookings = res.data.content || [];
+
+            // 🔥 check trùng
+            const isBooked = isRoomBooked(
+                bookings,
+                Number(id),
+                ngayDen,
+                ngayDi
+            );
+
+            if (isBooked) {
+                alert("Phòng đã có người đặt trong khoảng thời gian này");
+                return;
+            }
+
+            await bookingRoom({
+                maPhong: Number(id),
+                ngayDen,
+                ngayDi,
+                soLuongKhach,
+                maNguoiDung: user.id,
+            });
 
             alert("Đặt phòng thành công 🎉");
-
             navigate("/profile");
 
         } catch (err) {
             console.log(err);
-            alert("Đặt phòng thất bại");
+            alert("Lỗi khi đặt phòng");
         }
     };
 
     const formatDate = (date: string) => {
         return new Date(date).toLocaleDateString("vi-VN");
+    };
+
+    const isRoomBooked = (bookings: any[], maPhong: number, ngayDen: string, ngayDi: string) => {
+        return bookings.some((item) => {
+            if (item.maPhong !== maPhong) return false;
+
+            const start = new Date(item.ngayDen).getTime();
+            const end = new Date(item.ngayDi).getTime();
+
+            const newStart = new Date(ngayDen).getTime();
+            const newEnd = new Date(ngayDi).getTime();
+
+            // check overlap
+            return newStart < end && newEnd > start;
+        });
     };
 
     return (
@@ -261,62 +290,15 @@ const RoomDetail = () => {
                         ⭐ {averageRating} · {comments.length} đánh giá
                     </h4>
 
-                    <div className="card shadow-sm p-3 mb-4">
-
-                        <div className="d-flex align-items-center mb-3">
-                            <img
-                                src="https://i.pravatar.cc/40"
-                                className="rounded-circle me-2"
-                            />
-
-                            <strong>Viết đánh giá</strong>
+                    <div className="card p-3 mb-4">
+                        <textarea className="form-control mb-3" rows={3} value={noiDung} onChange={(e) => setNoiDung(e.target.value)} />
+                        <div className="d-flex justify-content-between"> <div> {[1, 2, 3, 4, 5].map((star) =>
+                            (<span key={star} style={{ fontSize: 24, cursor: "pointer", color: star <= (hover || sao) ? "#ffc107" : "#ccc" }} onClick={() => setSao(star)} onMouseEnter={() => setHover(star)} onMouseLeave={() => setHover(0)} >★</span>))}
                         </div>
-
-                        <textarea
-                            className="form-control mb-3"
-                            rows={3}
-                            placeholder="Chia sẻ trải nghiệm của bạn..."
-                            value={noiDung}
-                            onChange={(e) => setNoiDung(e.target.value)}
-                        />
-
-                        <div className="d-flex justify-content-between align-items-center">
-
-                            <div className="d-flex align-items-center gap-2">
-
-                                {[1, 2, 3, 4, 5].map((star) => (
-                                    <span
-                                        key={star}
-                                        style={{
-                                            fontSize: "24px",
-                                            cursor: "pointer",
-                                            color: star <= (hover || sao) ? "#ffc107" : "#e4e5e9",
-                                            transition: "0.2s"
-                                        }}
-                                        onClick={() => setSao(star)}
-                                        onMouseEnter={() => setHover(star)}
-                                        onMouseLeave={() => setHover(0)}
-                                    >
-                                        ★
-                                    </span>
-                                ))}
-
-                                <span className="ms-2 text-muted">
-                                    {sao}/5
-                                </span>
-
-                            </div>
-
-                            <button
-                                className="btn btn-danger"
-                                onClick={handleComment}
-                                disabled={loadingComment}
-                            >
-                                {loadingComment ? "Đang gửi..." : "Gửi đánh giá"}
+                            <button className="btn btn-danger" onClick={handleComment} disabled={loadingComment}>
+                                {loadingComment ? "Đang gửi..." : "Gửi"}
                             </button>
-
                         </div>
-
                     </div>
 
                     {comments.length === 0 && (
@@ -328,8 +310,10 @@ const RoomDetail = () => {
 
                             <div className="d-flex align-items-center mb-2">
                                 <img
-                                    src={user?.avatar || "https://i.pravatar.cc/40"}
+                                    src={item.avatar || "https://i.pravatar.cc/40"}
                                     className="rounded-circle me-2"
+                                    width={40}
+                                    height={40}
                                 />
 
                                 <div>
@@ -355,44 +339,15 @@ const RoomDetail = () => {
 
                         </div>
                     ))}
-                    <div className="d-flex justify-content-center mt-4">
+                    <div className="d-flex justify-content-center">
                         <ul className="pagination">
-
-                            {/* Prev */}
                             <li className={`page-item ${commentPage === 1 ? "disabled" : ""}`}>
-                                <button
-                                    className="page-link"
-                                    onClick={() => setCommentPage(commentPage - 1)}
-                                >
-                                    Prev
-                                </button>
+                                <button className="page-link" onClick={() => setCommentPage(commentPage - 1)}> Prev </button>
+                            </li> {getPages().map((p, i) => (<li key={i} className={`page-item ${commentPage === p ? "active" : ""} ${p === "..." ? "disabled" : ""}`}>
+                                <button className="page-link" onClick={() => typeof p === "number" && setCommentPage(p)}> {p} </button>
+                            </li>))} <li className={`page-item ${commentPage === totalPage ? "disabled" : ""}`}>
+                                <button className="page-link" onClick={() => setCommentPage(commentPage + 1)}> Next </button>
                             </li>
-
-                            {getPages().map((p, index) => (
-                                <li
-                                    key={index}
-                                    className={`page-item ${commentPage === p ? "active" : ""} ${p === "..." ? "disabled" : ""
-                                        }`}
-                                >
-                                    <button
-                                        className="page-link"
-                                        onClick={() => typeof p === "number" && setCommentPage(p)}
-                                    >
-                                        {p}
-                                    </button>
-                                </li>
-                            ))}
-
-                            {/* Next */}
-                            <li className={`page-item ${commentPage === totalPage ? "disabled" : ""}`}>
-                                <button
-                                    className="page-link"
-                                    onClick={() => setCommentPage(commentPage + 1)}
-                                >
-                                    Next
-                                </button>
-                            </li>
-
                         </ul>
                     </div>
 
@@ -453,7 +408,7 @@ const RoomDetail = () => {
 
                         </div>
                         <button
-                            className="btn btn-danger w-100 mb-3"
+                            className="btn btn-danger w-100"
                             onClick={handleBooking}
                         >
                             Đặt phòng
