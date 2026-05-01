@@ -18,6 +18,7 @@ import AdminLayout from "./pages/Admin/AdminLayout";
 import RoomAdmin from "./pages/Admin/RoomAdmin";
 import UserAdmin from "./pages/Admin/UserAdmin";
 import LocationAdmin from "./pages/Admin/LocationAdmin"
+import BookingAdmin from "./pages/Admin/BookingAdmin"
 
 createRoot(document.getElementById("root")!).render(
   <Router>
@@ -44,6 +45,7 @@ createRoot(document.getElementById("root")!).render(
         <Route path="users" element={<UserAdmin />} />
         <Route path="rooms" element={<RoomAdmin />} />
         <Route path="location" element={<LocationAdmin />} />
+        <Route path="bookings" element={<BookingAdmin />} />
       </Route>
     </Routes>
   </Router>

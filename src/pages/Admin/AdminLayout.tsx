@@ -4,22 +4,25 @@ const AdminLayout = () => {
   const menu = [
     {
       path: "/admin/users",
-      label: "Người dùng",
+      label: "quản lý Người dùng",
     },
     {
       path: "/admin/location",
-      label: "Vị trí",
+      label: "quản lý Vị trí",
     },
     {
       path: "/admin/rooms",
-      label: "Phòng",
+      label: "quản lý Phòng",
+    },
+    {
+      path: "/admin/bookings",
+      label: "quản lý đặt Phòng",
     },
   ];
 
   return (
     <div className="d-flex" style={{ minHeight: "100vh" }}>
 
-      {/* Sidebar */}
       <div
         className="border-end p-3 bg-dark text-white"
         style={{ width: 250 }}
@@ -45,10 +48,8 @@ const AdminLayout = () => {
         </div>
       </div>
 
-      {/* Content */}
       <div className="flex-grow-1">
 
-        {/* Header */}
         <div className="border-bottom p-3 d-flex justify-content-between align-items-center">
           <h5 className="mb-0">Quản lý</h5>
 
@@ -63,7 +64,6 @@ const AdminLayout = () => {
           </div>
         </div>
 
-        {/* Page content */}
         <div className="p-4">
           <Outlet />
         </div>

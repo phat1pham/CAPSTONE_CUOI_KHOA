@@ -93,3 +93,4 @@ export const deleteLocation = (id: number) => {
 export const deleteBooking = (id: number) => {
   return axiosClient.delete(`/dat-phong/${id}`);
 };
+
