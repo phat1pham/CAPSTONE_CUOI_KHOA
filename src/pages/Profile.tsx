@@ -5,6 +5,7 @@ import { userService } from "../api/api";
 import { getBookingByUser } from "../api/roomApi";
 import type { Booking } from "../types/room.type";
 import { getRoomDetail } from "../api/roomApi";
+import { deleteBooking } from "../api/roomApi";
 
 export default function Profile() {
   const [user, setUser] = useState<User | null>(null);
@@ -80,6 +81,10 @@ export default function Profile() {
     }));
   };
 
+  const formatDate = (date: string) => {
+    return new Date(date).toLocaleDateString("vi-VN");
+  };
+
   const handleSave = async () => {
     try {
       setSaving(true);
@@ -113,17 +118,85 @@ export default function Profile() {
     return <div className="text-center py-5">Không tìm thấy người dùng</div>;
   }
 
+  const renderAvatar = () => {
+    if (user?.avatar) {
+      return (
+        <img
+          src={user.avatar}
+          className="rounded-circle mx-auto mb-3"
+          style={{ width: 120, height: 120, objectFit: "cover" }}
+        />
+      );
+    }
+
+    const name = user?.name || "User";
+    const firstChar = name.charAt(0).toUpperCase();
+    const bgColor = getColorFromName(name);
+
+    return (
+      <div
+        className="rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center"
+        style={{
+          width: 120,
+          height: 120,
+          backgroundColor: bgColor,
+          color: "#fff",
+          fontSize: 40,
+          fontWeight: "bold"
+        }}
+      >
+        {firstChar}
+      </div>
+    );
+  };
+
+  const getColorFromName = (name: string) => {
+    const colors = [
+      "#f56a00",
+      "#7265e6",
+      "#ffbf00",
+      "#00a2ae",
+      "#ff4d4f",
+      "#52c41a",
+      "#1890ff",
+      "#eb2f96"
+    ];
+
+    let hash = 0;
+    for (let i = 0; i < name.length; i++) {
+      hash = name.charCodeAt(i) + ((hash << 5) - hash);
+    }
+
+    return colors[Math.abs(hash) % colors.length];
+  };
+
+  const handleCancel = async (bookingId: number) => {
+    const confirmDelete = window.confirm("Bạn có chắc muốn huỷ phòng này?");
+
+    if (!confirmDelete) return;
+
+    try {
+      await deleteBooking(bookingId);
+
+      // update UI ngay (không cần reload)
+      setBookings((prev) =>
+        prev.filter((item) => item.id !== bookingId)
+      );
+
+      alert("Huỷ phòng thành công");
+    } catch (err) {
+      console.log(err);
+      alert("Huỷ thất bại");
+    }
+  };
+
   return (
     <div className="container mt-4">
       <div className="row g-4">
         <div className="col-12 col-lg-4">
           <div className="card p-4 shadow-sm text-center">
 
-            <img
-              src={user.avatar || "https://i.pravatar.cc/150"}
-              className="rounded-circle mx-auto mb-3"
-              style={{ width: 120, height: 120, objectFit: "cover" }}
-            />
+            {renderAvatar()}
 
             {isEditing ? (
               <input
@@ -250,7 +323,7 @@ export default function Profile() {
                     </p>
 
                     <p className="mb-1">
-                      📅 {item.ngayDen} → {item.ngayDi}
+                      📅 {formatDate(item.ngayDen)} → {formatDate(item.ngayDi)}
                     </p>
 
                     <span className="badge bg-success">
@@ -264,6 +337,12 @@ export default function Profile() {
                     <h5 className="fw-bold text-danger">
                       ${item.phong?.giaTien}/đêm
                     </h5>
+                    <button
+                      className="btn btn-sm btn-outline-danger mt-2"
+                      onClick={() => handleCancel(item.id)}
+                    >
+                      Huỷ phòng
+                    </button>
                   </div>
 
                 </div>

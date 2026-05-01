@@ -89,3 +89,7 @@ export const getLocationPagination = (page: number, keyword: string) => {
 export const deleteLocation = (id: number) => {
   return axiosClient.delete(`/vi-tri/${id}`);
 };
+
+export const deleteBooking = (id: number) => {
+  return axiosClient.delete(`/dat-phong/${id}`);
+};
