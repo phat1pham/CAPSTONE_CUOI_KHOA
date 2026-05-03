@@ -1,4 +1,5 @@
 import axiosClient from "./Axios";
+import axios from "axios";
 import type { Room, Comment, Location } from "../types/room.type";
 import type { CommentCreate } from "../types/room.type";
 import type { ApiResponse } from "../types/api.type";
@@ -42,3 +43,54 @@ export const addComment = (data: CommentCreate) => {
     data
   );
 };
+
+export const getRoomPagination = (
+  page: number,
+  keyword: string = ""
+) => {
+  return axiosClient.get(
+    "/phong-thue/phan-trang-tim-kiem",
+    {
+      params: {
+        pageIndex: page,
+        pageSize: 10,
+        keyword
+      }
+    }
+  );
+};
+
+export const getLocation = () => {
+  return axiosClient.get("/vi-tri");
+};
+
+export const getBookingByUser = (userId: number) => {
+  return axiosClient.get(`/dat-phong/lay-theo-nguoi-dung/${userId}`);
+};
+
+export const bookingRoom = (data: any) => {
+  return axiosClient.post("/dat-phong", data);
+};
+
+export const getAllBooking = () => {
+  return axiosClient.get("/dat-phong");
+};
+
+export const getLocationPagination = (page: number, keyword: string) => {
+  return axiosClient.get("/vi-tri/phan-trang-tim-kiem", {
+    params: {
+      pageIndex: page,
+      pageSize: 10,
+      keyword,
+    },
+  });
+};
+
+export const deleteLocation = (id: number) => {
+  return axiosClient.delete(`/vi-tri/${id}`);
+};
+
+export const deleteBooking = (id: number) => {
+  return axiosClient.delete(`/dat-phong/${id}`);
+};
+

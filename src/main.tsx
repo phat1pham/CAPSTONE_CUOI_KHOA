@@ -14,9 +14,17 @@ import Register from "./pages/Register";
 import RoomList from "./pages/RoomList";
 import Profile from "./pages/Profile";
 import RoomDetail from "./pages/RoomDetail";
+<<<<<<< HEAD
 // import AdminLayout from "./pages/Admin/AdminLayout";
 // import RoomAdmin from "./pages/Admin/RoomAdmin";
 // import UserAdmin from "./pages/Admin/UserAdmin";
+=======
+import AdminLayout from "./pages/Admin/AdminLayout";
+import RoomAdmin from "./pages/Admin/RoomAdmin";
+import UserAdmin from "./pages/Admin/UserAdmin";
+import LocationAdmin from "./pages/Admin/LocationAdmin"
+import BookingAdmin from "./pages/Admin/BookingAdmin"
+>>>>>>> 62ab4f9fcd0fe47e95f735746a33551ecf68cae3
 
 createRoot(document.getElementById("root")!).render(
   <Router>
@@ -42,7 +50,13 @@ createRoot(document.getElementById("root")!).render(
       {/* <Route path="/admin" element={<AdminLayout />}>
         <Route path="users" element={<UserAdmin />} />
         <Route path="rooms" element={<RoomAdmin />} />
+<<<<<<< HEAD
       </Route> */}
+=======
+        <Route path="location" element={<LocationAdmin />} />
+        <Route path="bookings" element={<BookingAdmin />} />
+      </Route>
+>>>>>>> 62ab4f9fcd0fe47e95f735746a33551ecf68cae3
     </Routes>
   </Router>
 );

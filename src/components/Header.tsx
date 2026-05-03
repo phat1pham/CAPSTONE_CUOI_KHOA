@@ -29,7 +29,7 @@ export default function Header() {
           <div className="collapse navbar-collapse" id="navbarPages">
             <ul className="navbar-nav ms-auto align-items-center gap-3">
               <li className="nav-item d-none d-md-block">
-                <Link to="/vocation" className="nav-link fw-bold">
+                <Link to="/" className="nav-link fw-bold">
                   Nơi ở
                 </Link>
               </li>
