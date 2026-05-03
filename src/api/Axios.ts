@@ -8,4 +8,14 @@ const axiosClient = axios.create({
   }
 });
 
+axiosClient.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+
+  if (token) {
+    config.headers.token = token; // ⚠️ KEY QUAN TRỌNG
+  }
+
+  return config;
+});
+
 export default axiosClient;

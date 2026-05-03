@@ -23,7 +23,7 @@ export const userService = {
     );
     return response.data.content!;
   },
-  getUserProfile: async (userId: string): Promise<User> => {
+  getUserProfile: async (userId: number): Promise<User> => {
     const response = await axiosClient.get<ApiResponse<User>>(
       `/users/${userId}`,
     );
@@ -31,7 +31,10 @@ export const userService = {
   },
 
   updateProfile: async (data: Partial<User>): Promise<User> => {
-    const response = await axiosClient.put<ApiResponse<User>>(`/users/${data.id}`, data);
+    const response = await axiosClient.put<ApiResponse<User>>(
+      `/users/${data.id}`,
+      data
+    );
     return response.data.content!;
   },
 
