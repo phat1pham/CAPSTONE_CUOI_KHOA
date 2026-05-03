@@ -15,7 +15,7 @@ export default function Profile() {
   const [saving, setSaving] = useState(false);
   const [bookings, setBookings] = useState<Booking[]>([]);
   const navigate = useNavigate();
-
+  
   useEffect(() => {
     const userstr = localStorage.getItem("user");
     const userid = userstr ? JSON.parse(userstr).id : null;

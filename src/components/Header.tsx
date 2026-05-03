@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
 import React from "react";
 
 export default function Header() {
@@ -8,8 +7,60 @@ export default function Header() {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const userstr = localStorage.getItem("user");
-  const userRole = userstr ? JSON.parse(userstr).email === "testadmin@gmail.com" : null;
- 
+  const user = userstr ? JSON.parse(userstr) : null;
+  const userRole = null;
+  const renderAvatar = () => {
+    if (user?.avatar) {
+      return (
+        <img
+          src={user.avatar}
+          className="rounded-circle mx-auto mb-3"
+          style={{ width: 20, height: 20, objectFit: "cover" }}
+        />
+      );
+    }
+
+    const name = user?.name || "User";
+    const firstChar = name.charAt(0).toUpperCase();
+    const bgColor = getColorFromName(name);
+
+    return (
+      <div
+        className="rounded-circle mx-auto mb-1 d-flex align-items-center justify-content-center"
+        style={{
+          width: 40,
+          height: 40,
+          backgroundColor: bgColor,
+          color: "#fff",
+          fontSize: 16,
+          fontWeight: "bold",
+        }}
+      >
+        {firstChar}
+      </div>
+    );
+  };
+
+  const getColorFromName = (name: string) => {
+    const colors = [
+      "#f56a00",
+      "#7265e6",
+      "#ffbf00",
+      "#00a2ae",
+      "#ff4d4f",
+      "#52c41a",
+      "#1890ff",
+      "#eb2f96",
+    ];
+
+    let hash = 0;
+    for (let i = 0; i < name.length; i++) {
+      hash = name.charCodeAt(i) + ((hash << 5) - hash);
+    }
+
+    return colors[Math.abs(hash) % colors.length];
+  };
+
   const handleLogout = () => {
     localStorage.removeItem("token");
     navigate("/login");
@@ -19,11 +70,11 @@ export default function Header() {
     <header className="sticky-top">
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container">
-          <div className="pe-2 fs-4">
-            <i className="fab fa-airbnb"></i>
-          </div>
           <Link className="navbar-brand" to="/">
+            <div className="pe-2 fs-4">
+              <i className="fab fa-airbnb pe-2"></i> 
             Airbnb
+            </div>
           </Link>
 
           <div className="collapse navbar-collapse" id="navbarPages">
@@ -48,16 +99,25 @@ export default function Header() {
 
           <div className="collapse navbar-collapse" id="navbarContent">
             <ul className="navbar-nav ms-auto align-items-center gap-3">
-              
               <li className="nav-item dropdown">
-                <button
-                  className="btn btn-outline-secondary rounded-pill d-flex align-items-center gap-2"
-                  onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                  style={{ textDecoration: "none" }}
-                >
-                  <i className="fa-solid fa-bars"></i>
-                  <i className="fa fa-user"></i>
-                </button>
+                {token ? (
+                  <button
+                    className="btn btn-light-secondary rounded-pill border-0 d-flex align-items-center gap-2"
+                    onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                    style={{ textDecoration: "none" }}
+                  >
+                    {renderAvatar()}
+                  </button>
+                ) : (
+                  <button
+                    className="btn btn-outline-secondary rounded-pill d-flex align-items-center gap-2"
+                    onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                    style={{ textDecoration: "none" }}
+                  >
+                    <i className="fa-solid fa-bars"></i>
+                    <i className="fa fa-user"></i>
+                  </button>
+                )}
                 {isUserMenuOpen && (
                   <ul
                     className="dropdown-menu show position-absolute end-0"
@@ -70,7 +130,7 @@ export default function Header() {
                             Hồ sơ
                           </Link>
                         </li>
-                        <li>  
+                        <li>
                           <Link to="/bookings" className="dropdown-item">
                             Đặt phòng của tôi
                           </Link>

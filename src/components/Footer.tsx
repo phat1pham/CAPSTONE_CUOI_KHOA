@@ -10,10 +10,10 @@ export default function Footer() {
           <div className="col-md-3 mb-4 mb-md-0">
             <h5 className="fw-bold mb-3">Giới thiệu</h5>
             <ul className="list-unstyled">
-              <li><Link to="#" className="text-muted text-decoration-none">Airbnb hoạt động như thế nào</Link></li>
-              <li><Link to="#" className="text-muted text-decoration-none">Trang tin tức</Link></li>
-              <li><Link to="#" className="text-muted text-decoration-none">Nhà đầu tư</Link></li>
-              <li><Link to="#" className="text-muted text-decoration-none">Cơ hội nghề nghiệp</Link></li>
+              <li><Link to="/about/how-it-works" className="text-muted text-decoration-none">Airbnb hoạt động như thế nào</Link></li>
+              <li><Link to="/about/news" className="text-muted text-decoration-none">Trang tin tức</Link></li>
+              <li><Link to="/about/investor" className="text-muted text-decoration-none">Nhà đầu tư</Link></li>
+              <li><Link to="/about/careers" className="text-muted text-decoration-none">Cơ hội nghề nghiệp</Link></li>
             </ul>
           </div>
 
@@ -21,10 +21,10 @@ export default function Footer() {
           <div className="col-md-3 mb-4 mb-md-0">
             <h5 className="fw-bold mb-3">Cộng đồng</h5>
             <ul className="list-unstyled">
-              <li><Link to="#" className="text-muted text-decoration-none">Đa dạng & Sự thuộc về</Link></li>
-              <li><Link to="#" className="text-muted text-decoration-none">Khả năng tiếp cận</Link></li>
-              <li><Link to="#" className="text-muted text-decoration-none">Đối tác</Link></li>
-              <li><Link to="#" className="text-muted text-decoration-none">Thẻ quà tặng</Link></li>
+              <li><Link to="/community/diversity" className="text-muted text-decoration-none">Đa dạng & Sự thuộc về</Link></li>
+              <li><Link to="/community/accessibility" className="text-muted text-decoration-none">Khả năng tiếp cận</Link></li>
+              <li><Link to="/community/partnership" className="text-muted text-decoration-none">Đối tác</Link></li>
+              <li><Link to="/community/gift-cards" className="text-muted text-decoration-none">Thẻ quà tặng</Link></li>
             </ul>
           </div>
 
@@ -32,10 +32,10 @@ export default function Footer() {
           <div className="col-md-3 mb-4 mb-md-0">
             <h5 className="fw-bold mb-3">Đón tiếp khác</h5>
             <ul className="list-unstyled">
-              <li><Link to="#" className="text-muted text-decoration-none">Cho thuê nhà</Link></li>
-              <li><Link to="#" className="text-muted text-decoration-none">Tổ chức trải nghiệm</Link></li>
-              <li><Link to="#" className="text-muted text-decoration-none">Cho thuê có trách nhiệm</Link></li>
-              <li><Link to="#" className="text-muted text-decoration-none">Trung tâm Tài nguyên</Link></li>
+              <li><Link to="/host/rent-out" className="text-muted text-decoration-none">Cho thuê nhà</Link></li>
+              <li><Link to="/host/experiences" className="text-muted text-decoration-none">Tổ chức trải nghiệm</Link></li>
+              <li><Link to="/host/responsible-hosting" className="text-muted text-decoration-none">Cho thuê có trách nhiệm</Link></li>
+              <li><Link to="/host/resource-center" className="text-muted text-decoration-none">Trung tâm Tài nguyên</Link></li>
             </ul>
           </div>
 
@@ -43,10 +43,10 @@ export default function Footer() {
           <div className="col-md-3">
             <h5 className="fw-bold mb-3">Hỗ trợ</h5>
             <ul className="list-unstyled">
-              <li><Link to="#" className="text-muted text-decoration-none">Trung tâm trợ giúp</Link></li>
-              <li><Link to="#" className="text-muted text-decoration-none">Thông tin an toàn</Link></li>
-              <li><Link to="#" className="text-muted text-decoration-none">Tùy chọn hủy</Link></li>
-              <li><Link to="#" className="text-muted text-decoration-none">Báo cáo vấn đề</Link></li>
+              <li><Link to="/support/help-center" className="text-muted text-decoration-none">Trung tâm trợ giúp</Link></li>
+              <li><Link to="/support/safety" className="text-muted text-decoration-none">Thông tin an toàn</Link></li>
+              <li><Link to="/support/cancellation" className="text-muted text-decoration-none">Tùy chọn hủy</Link></li>
+              <li><Link to="/support/report-issue" className="text-muted text-decoration-none">Báo cáo vấn đề</Link></li>
             </ul>
           </div>
         </div>
