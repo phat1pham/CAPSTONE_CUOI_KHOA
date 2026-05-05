@@ -70,3 +70,10 @@ export const getUserPagination = (page: number, keyword: string = "") => {
     },
   );
 };
+
+export const createAdmin = (data: CreateAdminPayload) => {
+  return axiosClient.post("/users", {
+    ...data,
+    role: "ADMIN",
+  });
+};
