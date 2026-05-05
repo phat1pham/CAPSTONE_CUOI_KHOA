@@ -10,3 +10,12 @@ export interface ApiResponse<T> {
   content: T;
   dateTime: string;
 }
+
+export interface CreateAdminPayload {
+  name: string;
+  email: string;
+  password: string;
+  phone: string;
+  birthday: string;
+  gender: boolean;
+}

@@ -62,3 +62,11 @@ export interface Booking {
     phongNgu: number;
   };
 }
+
+export interface BookingCreatePayload {
+  maPhong: number;
+  ngayDen: string;
+  ngayDi: string;
+  soLuongKhach: number;
+  maNguoiDung: number;
+}
