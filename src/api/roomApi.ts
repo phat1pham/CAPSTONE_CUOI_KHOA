@@ -1,7 +1,6 @@
 import axiosClient from "./Axios";
-import axios from "axios";
 import type { Room, Comment, Location } from "../types/room.type";
-import type { CommentCreate } from "../types/room.type";
+import type { CommentCreate, Booking, BookingCreatePayload } from "../types/room.type";
 import type { ApiResponse } from "../types/api.type";
 
 export const getRoomList = () => {
@@ -68,8 +67,11 @@ export const getBookingByUser = (userId: number) => {
   return axiosClient.get(`/dat-phong/lay-theo-nguoi-dung/${userId}`);
 };
 
-export const bookingRoom = (data: any) => {
-  return axiosClient.post("/dat-phong", data);
+export const bookingRoom = (data: BookingCreatePayload) => {
+  return axiosClient.post<ApiResponse<Booking>>(
+    "/dat-phong",
+    data
+  );
 };
 
 export const getAllBooking = () => {
@@ -93,4 +95,3 @@ export const deleteLocation = (id: number) => {
 export const deleteBooking = (id: number) => {
   return axiosClient.delete(`/dat-phong/${id}`);
 };
-

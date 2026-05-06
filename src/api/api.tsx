@@ -1,7 +1,7 @@
 import axiosClient from "./Axios";
 import type { User, ApiResponse } from "../types/type";
-import type { Pagination } from "../types/api.type";
-// User Services
+import type { Pagination, CreateAdminPayload } from "../types/api.type";
+
 export const userService = {
   login: async (
     email: string,
@@ -70,3 +70,13 @@ export const getUserPagination = (page: number, keyword: string = "") => {
     },
   );
 };
+<<<<<<< HEAD
+=======
+
+export const createAdmin = (data: CreateAdminPayload) => {
+  return axiosClient.post("/users", {
+    ...data,
+    role: "ADMIN",
+  });
+};
+>>>>>>> 2ecd6b20cc30b7e3bbcbcfff051d7f0f6d9dd02f

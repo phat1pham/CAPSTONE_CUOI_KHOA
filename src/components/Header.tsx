@@ -15,7 +15,7 @@ export default function Header() {
         <img
           src={user.avatar}
           className="rounded-circle mx-auto mb-3"
-          style={{ width: 20, height: 20, objectFit: "cover" }}
+          style={{ width: 40, height: 40, objectFit: "cover" }}
         />
       );
     }
