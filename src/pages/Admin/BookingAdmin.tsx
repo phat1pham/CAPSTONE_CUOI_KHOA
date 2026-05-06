@@ -20,7 +20,6 @@ const BookingAdmin = () => {
     fetchBooking();
   }, []);
 
-  // 👉 pagination
   const totalPage = Math.ceil(bookings.length / pageSize);
 
   const paginatedBookings = bookings.slice(
@@ -124,11 +123,9 @@ const BookingAdmin = () => {
         </div>
       </div>
 
-      {/* PAGINATION */}
       <div className="d-flex justify-content-center mt-4">
         <ul className="pagination">
 
-          {/* Prev */}
           <li className={`page-item ${page === 1 ? "disabled" : ""}`}>
             <button
               className="page-link"
@@ -152,7 +149,6 @@ const BookingAdmin = () => {
             </li>
           ))}
 
-          {/* Next */}
           <li className={`page-item ${page === totalPage ? "disabled" : ""}`}>
             <button
               className="page-link"

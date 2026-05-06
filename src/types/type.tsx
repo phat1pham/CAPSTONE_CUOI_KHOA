@@ -8,7 +8,7 @@ export interface User {
   phone: string;
   birthday: string;
   render: "true" | "false";
-  role: 'user' | 'admin';
+  role: "USER" | "ADMIN";
 }
 
 export interface ApiResponse<T> {

@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
 import { getUserPagination } from "../../api/api";
 import type { User } from "../../types/type";
+import { createAdmin } from "../../api/api";
+import AddAdminModal from "./AddAdminModal";
 
 const UserAdmin = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [page, setPage] = useState(1);
   const [keyword, setKeyword] = useState("");
   const [total, setTotal] = useState(0);
-
+  const [showModal, setShowModal] = useState(false);
+  
   const fetchUsers = () => {
     getUserPagination(page, keyword)
       .then((res) => {
@@ -51,46 +54,47 @@ const UserAdmin = () => {
   };
 
   const colors = [
-  "#0d6efd", 
-  "#198754", 
-  "#dc3545", 
-  "#ffc107", 
-  "#6f42c1", 
-  "#fd7e14", 
-];
+    "#0d6efd",
+    "#198754",
+    "#dc3545",
+    "#ffc107",
+    "#6f42c1",
+    "#fd7e14",
+  ];
+  
 
-const renderAvatar = (user: User) => {
-  if (user.avatar) {
+  const renderAvatar = (user: User) => {
+    if (user.avatar) {
+      return (
+        <img
+          src={user.avatar}
+          width={40}
+          height={40}
+          className="rounded-circle"
+          style={{ objectFit: "cover" }}
+        />
+      );
+    }
+
+    const firstChar = user.name?.charAt(0)?.toUpperCase() || "?";
+    
+    const color = colors[user.id % colors.length];
+
     return (
-      <img
-        src={user.avatar}
-        width={40}
-        height={40}
-        className="rounded-circle"
-        style={{ objectFit: "cover" }}
-      />
+      <div
+        className="rounded-circle d-flex align-items-center justify-content-center"
+        style={{
+          width: 40,
+          height: 40,
+          backgroundColor: color,
+          color: "#fff",
+          fontWeight: "bold",
+        }}
+      >
+        {firstChar}
+      </div>
     );
-  }
-
-  const firstChar = user.name?.charAt(0)?.toUpperCase() || "?";
-
-  const color = colors[user.id % colors.length];
-
-  return (
-    <div
-      className="rounded-circle d-flex align-items-center justify-content-center"
-      style={{
-        width: 40,
-        height: 40,
-        backgroundColor: color,
-        color: "#fff",
-        fontWeight: "bold",
-      }}
-    >
-      {firstChar}
-    </div>
-  );
-};
+  };
 
   return (
     <div className="container-fluid">
@@ -98,12 +102,14 @@ const renderAvatar = (user: User) => {
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h3>Quản lý người dùng</h3>
 
-        <button className="btn btn-primary">
-          + Thêm người dùng
+        <button
+          className="btn btn-primary"
+          onClick={() => setShowModal(true)}
+        >
+          + Thêm quản trị viên
         </button>
       </div>
 
-      {/* Search */}
       <div className="card shadow-sm mb-3">
         <div className="card-body d-flex gap-2">
 
@@ -150,9 +156,7 @@ const renderAvatar = (user: User) => {
 
                   <td>{user.id}</td>
 
-                  <td>
-                    <td>{renderAvatar(user)}</td>
-                  </td>
+                  <td>{renderAvatar(user)}</td>
 
                   <td>{user.name}</td>
 
@@ -163,7 +167,7 @@ const renderAvatar = (user: User) => {
                   <td>
                     <span
                       className={
-                        user.role === "admin"
+                        user.role === "ADMIN"
                           ? "badge bg-danger"
                           : "badge bg-secondary"
                       }
@@ -200,7 +204,6 @@ const renderAvatar = (user: User) => {
       <div className="d-flex justify-content-center mt-4">
         <ul className="pagination">
 
-          {/* Prev */}
           <li className={`page-item ${page === 1 ? "disabled" : ""}`}>
             <button
               className="page-link"
@@ -240,7 +243,12 @@ const renderAvatar = (user: User) => {
 
         </ul>
       </div>
-
+      {showModal && (
+        <AddAdminModal
+          onClose={() => setShowModal(false)}
+          onSuccess={fetchUsers}
+        />
+      )}
     </div>
   );
 };
