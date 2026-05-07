@@ -51,9 +51,11 @@ export interface CommentCreate {
 export interface Booking {
   id: number;
   maPhong: number;
+  maNguoiDung: number;
   ngayDen: string;
   ngayDi: string;
   soLuongKhach: number;
+
   phong?: {
     tenPhong: string;
     hinhAnh: string;

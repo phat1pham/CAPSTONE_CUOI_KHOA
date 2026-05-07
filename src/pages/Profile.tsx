@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { User } from "../types/type";
 import { userService } from "../api/api";
-import { getBookingByUser } from "../api/roomApi";
+import { getAllBooking } from "../api/roomApi";
 import type { Booking } from "../types/room.type";
 import { getRoomDetail } from "../api/roomApi";
 import { deleteBooking } from "../api/roomApi";
@@ -15,20 +15,28 @@ export default function Profile() {
   const [saving, setSaving] = useState(false);
   const [bookings, setBookings] = useState<Booking[]>([]);
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     const userstr = localStorage.getItem("user");
     const userid = userstr ? JSON.parse(userstr).id : null;
-    loadProfile(userid);
+
+    if (userid) {
+      loadProfile(userid);
+      loadBookings(userid);
+    }
   }, []);
 
   const loadBookings = async (userId: number) => {
     try {
-      const res = await getBookingByUser(userId);
-      const bookingList = res.data.content || [];
+      const res = await getAllBooking();
+      const allBookings = res.data.content || [];
+
+      const userBookings = allBookings.filter(
+        (item: any) => item.maNguoiDung === userId
+      );
 
       const bookingWithRoom = await Promise.all(
-        bookingList.map(async (item: Booking) => {
+        userBookings.map(async (item: Booking) => {
           try {
             const roomRes = await getRoomDetail(item.maPhong);
 
