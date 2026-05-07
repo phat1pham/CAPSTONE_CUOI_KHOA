@@ -7,6 +7,8 @@ import type { Comment } from "../types/room.type";
 import { addComment } from "../api/roomApi";
 import { useNavigate } from "react-router-dom";
 import { bookingRoom, getAllBooking } from "../api/roomApi";
+import type { Booking } from "../types/room.type";
+import type { User } from "../types/type";
 
 const RoomDetail = () => {
     const { id } = useParams();
@@ -21,14 +23,15 @@ const RoomDetail = () => {
     const [ngayDi, setNgayDi] = useState("");
     const [soLuongKhach, setSoLuongKhach] = useState(1);
     const [loadingComment, setLoadingComment] = useState(false);
-    const userStr = localStorage.getItem("user");
-    const user = userStr ? JSON.parse(userStr) : null;
     const [commentPage, setCommentPage] = useState(1);
     const pageSize = 5;
+    const user: User | null = localStorage.getItem("user")
+        ? JSON.parse(localStorage.getItem("user")!) as User
+        : null;
 
     useEffect(() => {
         if (!id) return;
-        
+
         getRoomDetail(Number(id))
             .then((res) => {
                 setRoom(res.data.content);
@@ -55,8 +58,6 @@ const RoomDetail = () => {
     }, [id]);
 
     const handleComment = async () => {
-        const userStr = localStorage.getItem("user");
-        const user = userStr ? JSON.parse(userStr) : null;
 
         if (!user) {
             alert("Vui lòng đăng nhập");
@@ -168,17 +169,19 @@ const RoomDetail = () => {
             return;
         }
 
-        const userStr = localStorage.getItem("user");
-        const user = userStr ? JSON.parse(userStr) : null;
+        if (new Date(ngayDi) <= new Date(ngayDen)) {
+            alert("Ngày trả phòng phải lớn hơn ngày nhận phòng");
+            return;
+        }
 
         if (!user) return;
 
         try {
-            // 🔥 lấy tất cả booking
+
             const res = await getAllBooking();
             const bookings = res.data.content || [];
 
-            // 🔥 check trùng
+
             const isBooked = isRoomBooked(
                 bookings,
                 Number(id),
@@ -212,7 +215,12 @@ const RoomDetail = () => {
         return new Date(date).toLocaleDateString("vi-VN");
     };
 
-    const isRoomBooked = (bookings: any[], maPhong: number, ngayDen: string, ngayDi: string) => {
+    const isRoomBooked = (
+        bookings: Booking[],
+        maPhong: number,
+        ngayDen: string,
+        ngayDi: string
+    ) => {
         return bookings.some((item) => {
             if (item.maPhong !== maPhong) return false;
 
@@ -228,12 +236,12 @@ const RoomDetail = () => {
     };
 
     const colors = [
-        "#0d6efd", 
-        "#198754", 
-        "#dc3545", 
-        "#ffc107", 
-        "#6f42c1", 
-        "#fd7e14", 
+        "#0d6efd",
+        "#198754",
+        "#dc3545",
+        "#ffc107",
+        "#6f42c1",
+        "#fd7e14",
     ];
 
     const renderAvatar = (item: Comment) => {

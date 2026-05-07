@@ -17,6 +17,8 @@ import RoomDetail from "./pages/RoomDetail";
 import AdminLayout from "./pages/Admin/AdminLayout";
 import RoomAdmin from "./pages/Admin/RoomAdmin";
 import UserAdmin from "./pages/Admin/UserAdmin";
+import LocationAdmin from "./pages/Admin/LocationAdmin"
+import BookingAdmin from "./pages/Admin/BookingAdmin"
 // About Pages
 import HowItWorks from "./pages/About/HowItWorks";
 import News from "./pages/About/News";
@@ -53,25 +55,25 @@ createRoot(document.getElementById("root")!).render(
               <Route path="/roomList/:id" element={<RoomList />} />
               <Route path="/room/:id" element={<RoomDetail />} />
               <Route path="/profile" element={<Profile />} />
-              
+
               {/* About Routes */}
               <Route path="/about/how-it-works" element={<HowItWorks />} />
               <Route path="/about/news" element={<News />} />
               <Route path="/about/investor" element={<Investor />} />
               <Route path="/about/careers" element={<Careers />} />
-              
+
               {/* Community Routes */}
               <Route path="/community/diversity" element={<Diversity />} />
               <Route path="/community/accessibility" element={<Accessibility />} />
               <Route path="/community/partnership" element={<Partnership />} />
               <Route path="/community/gift-cards" element={<GiftCards />} />
-              
+
               {/* Host Routes */}
               <Route path="/host/rent-out" element={<RentOut />} />
               <Route path="/host/experiences" element={<Experiences />} />
               <Route path="/host/responsible-hosting" element={<ResponsibleHosting />} />
               <Route path="/host/resource-center" element={<ResourceCenter />} />
-              
+
               {/* Support Routes */}
               <Route path="/support/help-center" element={<HelpCenter />} />
               <Route path="/support/safety" element={<Safety />} />
@@ -86,6 +88,8 @@ createRoot(document.getElementById("root")!).render(
       <Route path="/admin" element={<AdminLayout />}>
         <Route path="users" element={<UserAdmin />} />
         <Route path="rooms" element={<RoomAdmin />} />
+        <Route path="location" element={<LocationAdmin />} />
+        <Route path="bookings" element={<BookingAdmin />} />
       </Route>
     </Routes>
   </Router>
