@@ -177,10 +177,6 @@ const UserAdmin = () => {
                   </td>
 
                   <td>
-                    <button className="btn btn-sm btn-info me-2">
-                      Xem
-                    </button>
-
                     <button className="btn btn-sm btn-warning me-2">
                       Sửa
                     </button>

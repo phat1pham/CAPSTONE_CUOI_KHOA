@@ -79,8 +79,6 @@ const RoomAdmin = () => {
         </button>
       </div>
 
-      {/* Search */}
-
       <div className="card mb-3">
         <div className="card-body d-flex gap-2">
           <input
@@ -141,10 +139,6 @@ const RoomAdmin = () => {
                 </td>
 
                 <td>
-                  <button className="btn btn-sm btn-info me-2">
-                    Xem chi tiết
-                  </button>
-
                   <button className="btn btn-sm btn-warning me-2">
                     Sửa
                   </button>
@@ -187,7 +181,6 @@ const RoomAdmin = () => {
             </li>
           ))}
 
-          {/* Next */}
           <li
             className={`page-item ${page === totalPage ? "disabled" : ""
               }`}

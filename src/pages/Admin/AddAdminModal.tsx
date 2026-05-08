@@ -47,7 +47,7 @@ const AddAdminModal = ({ onClose, onSuccess }: Props) => {
 
       await createAdmin(form);
 
-      alert("Tạo admin thành công 🎉");
+      alert("Tạo admin thành công");
       onSuccess();
       onClose();
 

@@ -6,7 +6,6 @@ export default function Footer() {
     <footer className="bg-light border-top mt-5 py-5">
       <div className="container-lg">
         <div className="row mb-4">
-          {/* About */}
           <div className="col-md-3 mb-4 mb-md-0">
             <h5 className="fw-bold mb-3">Giới thiệu</h5>
             <ul className="list-unstyled">
@@ -17,7 +16,6 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Community */}
           <div className="col-md-3 mb-4 mb-md-0">
             <h5 className="fw-bold mb-3">Cộng đồng</h5>
             <ul className="list-unstyled">
@@ -28,7 +26,6 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Host */}
           <div className="col-md-3 mb-4 mb-md-0">
             <h5 className="fw-bold mb-3">Đón tiếp khác</h5>
             <ul className="list-unstyled">
@@ -39,7 +36,6 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Support */}
           <div className="col-md-3">
             <h5 className="fw-bold mb-3">Hỗ trợ</h5>
             <ul className="list-unstyled">
@@ -51,7 +47,6 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Divider */}
         <div className="border-top pt-4">
           <div className="row align-items-center">
             <div className="col-md-6 mb-3 mb-md-0">

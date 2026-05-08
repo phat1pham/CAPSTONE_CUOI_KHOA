@@ -182,7 +182,6 @@ export default function Profile() {
     try {
       await deleteBooking(bookingId);
 
-      // update UI ngay (không cần reload)
       setBookings((prev) =>
         prev.filter((item) => item.id !== bookingId)
       );
@@ -330,17 +329,24 @@ export default function Profile() {
                       📅 {formatDate(item.ngayDen)} → {formatDate(item.ngayDi)}
                     </p>
 
-                    <span className="badge bg-success">
-                      Đã đặt
-                    </span>
+                    <div className="d-flex align-items-center gap-2 flex-wrap mt-2">
+
+                      <span className="badge bg-success">
+                        Đã đặt
+                      </span>
+
+                      <span className="badge bg-primary">
+                       {item.soLuongKhach} khách
+                      </span>
+
+                    </div>
 
                   </div>
 
-                  {/* PRICE */}
                   <div className="text-end">
-                    <h5 className="fw-bold text-danger">
+                    <h6 className="fw-bold text-danger">
                       ${item.phong?.giaTien}/đêm
-                    </h5>
+                    </h6>
                     <button
                       className="btn btn-sm btn-outline-danger mt-2"
                       onClick={() => handleCancel(item.id)}

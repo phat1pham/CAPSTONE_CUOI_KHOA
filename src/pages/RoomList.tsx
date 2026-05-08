@@ -7,7 +7,7 @@ import SearchBar from "../components/SearchBar";
 const RoomList = () => {
   const [rooms, setRooms] = useState<Room[]>([]);
 
-  const { id } = useParams(); // lấy id từ url
+  const { id } = useParams(); 
 
   useEffect(() => {
     if (!id) return;
@@ -28,7 +28,6 @@ return (
 
     <div className="row">
 
-      {/* Danh sách phòng */}
       <div className="col-lg-7 col-12">
         <h4>Chỗ ở tại khu vực đã chọn</h4>
 
@@ -76,7 +75,6 @@ return (
 
       </div>
 
-      {/* Map */}
       <div className="col-lg-5 d-none d-lg-block">
         <div
           style={{

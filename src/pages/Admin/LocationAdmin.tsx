@@ -71,7 +71,6 @@ const LocationAdmin = () => {
   return (
     <div className="container-fluid">
 
-      {/* Header */}
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h3>Quản lý vị trí</h3>
 
@@ -80,7 +79,6 @@ const LocationAdmin = () => {
         </button>
       </div>
 
-      {/* Search */}
       <div className="card shadow-sm mb-3">
         <div className="card-body d-flex gap-2">
           <input
@@ -100,7 +98,6 @@ const LocationAdmin = () => {
         </div>
       </div>
 
-      {/* Table */}
       <div className="card shadow-sm">
         <div className="table-responsive">
 
@@ -124,10 +121,6 @@ const LocationAdmin = () => {
                   <td>{loc.quocGia}</td>
 
                   <td>
-                    <button className="btn btn-sm btn-info me-2">
-                      Xem
-                    </button>
-
                     <button className="btn btn-sm btn-warning me-2">
                       Sửa
                     </button>
@@ -147,7 +140,6 @@ const LocationAdmin = () => {
         </div>
       </div>
 
-      {/* Pagination */}
       <div className="d-flex justify-content-center mt-4">
         <ul className="pagination">
 

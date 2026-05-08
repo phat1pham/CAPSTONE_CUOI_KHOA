@@ -63,6 +63,7 @@ export default function Header() {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("user");
     navigate("/login");
   };
 
@@ -72,8 +73,8 @@ export default function Header() {
         <div className="container">
           <Link className="navbar-brand" to="/">
             <div className="pe-2 fs-4">
-              <i className="fab fa-airbnb pe-2"></i> 
-            Airbnb
+              <i className="fab fa-airbnb pe-2"></i>
+              Airbnb
             </div>
           </Link>
 
