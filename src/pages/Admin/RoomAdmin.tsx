@@ -144,7 +144,7 @@ const RoomAdmin = () => {
                   </button>
 
                   <button className="btn btn-sm btn-danger">
-                    X
+                     Xóa
                   </button>
                 </td>
               </tr>

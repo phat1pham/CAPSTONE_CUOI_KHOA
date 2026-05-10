@@ -1,6 +1,7 @@
 import axiosClient from "./Axios";
 import type { User, ApiResponse } from "../types/type";
 import type { Pagination, CreateAdminPayload } from "../types/api.type";
+import type { Room } from "../types/room.type";
 
 export const userService = {
   login: async (
@@ -44,8 +45,8 @@ export const userService = {
 };
 
 export const roomService = {
-  getAllRooms: async (params?: any): Promise<RoomList[]> => {
-    const response = await axiosClient.get<ApiResponse<RoomList[]>>(
+  getAllRooms: async (): Promise<Room[]> => {
+    const response = await axiosClient.get<ApiResponse<Room[]>>(
       "/vi-tri/phan-trang-tim-kiem",
       {
         params: {
@@ -54,6 +55,7 @@ export const roomService = {
         },
       },
     );
+
     return response.data.content || [];
   },
 };
@@ -76,4 +78,8 @@ export const createAdmin = (data: CreateAdminPayload) => {
     ...data,
     role: "ADMIN",
   });
+};
+
+export const deleteUser = (id: number) => {
+  return axiosClient.delete(`/users?id=${id}`);
 };

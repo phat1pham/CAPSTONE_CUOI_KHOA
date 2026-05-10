@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { getUserPagination } from "../../api/api";
 import type { User } from "../../types/type";
-import { createAdmin } from "../../api/api";
 import AddAdminModal from "./AddAdminModal";
+import { deleteUser } from "../../api/api";
 
 const UserAdmin = () => {
   const [users, setUsers] = useState<User[]>([]);
@@ -10,7 +10,7 @@ const UserAdmin = () => {
   const [keyword, setKeyword] = useState("");
   const [total, setTotal] = useState(0);
   const [showModal, setShowModal] = useState(false);
-  
+
   const fetchUsers = () => {
     getUserPagination(page, keyword)
       .then((res) => {
@@ -53,6 +53,27 @@ const UserAdmin = () => {
     return pages;
   };
 
+  const handleDelete = async (id: number) => {
+    const confirmDelete = window.confirm(
+      "Bạn có chắc muốn xóa người dùng này?"
+    );
+
+    if (!confirmDelete) return;
+
+    try {
+      await deleteUser(id);
+
+      setUsers((prev) =>
+        prev.filter((user) => user.id !== id)
+      );
+
+      alert("Xóa người dùng thành công");
+    } catch (err) {
+      console.log(err);
+      alert("Xóa thất bại");
+    }
+  };
+
   const colors = [
     "#0d6efd",
     "#198754",
@@ -61,7 +82,7 @@ const UserAdmin = () => {
     "#6f42c1",
     "#fd7e14",
   ];
-  
+
 
   const renderAvatar = (user: User) => {
     if (user.avatar) {
@@ -77,7 +98,7 @@ const UserAdmin = () => {
     }
 
     const firstChar = user.name?.charAt(0)?.toUpperCase() || "?";
-    
+
     const color = colors[user.id % colors.length];
 
     return (
@@ -181,7 +202,10 @@ const UserAdmin = () => {
                       Sửa
                     </button>
 
-                    <button className="btn btn-sm btn-danger">
+                    <button
+                      className="btn btn-sm btn-danger"
+                      onClick={() => handleDelete(user.id)}
+                    >
                       Xóa
                     </button>
                   </td>

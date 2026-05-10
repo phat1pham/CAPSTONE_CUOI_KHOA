@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { bookingRoom, getAllBooking } from "../api/roomApi";
 import type { Booking } from "../types/room.type";
 import type { User } from "../types/type";
-import "../css/RoomDetail.css";
+import "./css/RoomDetail.css";
 
 const RoomDetail = () => {
     const { id } = useParams();
