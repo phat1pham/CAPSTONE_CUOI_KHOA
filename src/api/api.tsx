@@ -83,3 +83,10 @@ export const createAdmin = (data: CreateAdminPayload) => {
 export const deleteUser = (id: number) => {
   return axiosClient.delete(`/users?id=${id}`);
 };
+
+export const updateUser = (
+  id: number,
+  data: Partial<User>
+) => {
+  return axiosClient.put(`/users/${id}`, data);
+};

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getRoomPagination, getLocation } from "../../api/roomApi";
 import type { Room, Location } from "../../types/room.type";
+import AddRoomModal from "./AddRoomModal";
 
 const RoomAdmin = () => {
   const [rooms, setRooms] = useState<Room[]>([]);
@@ -8,6 +9,7 @@ const RoomAdmin = () => {
   const [page, setPage] = useState(1);
   const [keyword, setKeyword] = useState("");
   const [total, setTotal] = useState(0);
+  const [showAddRoom, setShowAddRoom] = useState(false);
 
   const fetchRooms = () => {
     getRoomPagination(page, keyword)
@@ -63,7 +65,7 @@ const RoomAdmin = () => {
 
   useEffect(() => {
     fetchRooms();
-  }, [page]);
+  }, [page, keyword]);
 
   useEffect(() => {
     fetchLocation();
@@ -74,7 +76,10 @@ const RoomAdmin = () => {
       <div className="d-flex justify-content-between mb-4">
         <h3>Quản lý phòng</h3>
 
-        <button className="btn btn-primary">
+        <button
+          className="btn btn-primary"
+          onClick={() => setShowAddRoom(true)}
+        >
           + Thêm phòng
         </button>
       </div>
@@ -144,7 +149,7 @@ const RoomAdmin = () => {
                   </button>
 
                   <button className="btn btn-sm btn-danger">
-                     Xóa
+                    Xóa
                   </button>
                 </td>
               </tr>
@@ -195,6 +200,12 @@ const RoomAdmin = () => {
 
         </ul>
       </div>
+      {showAddRoom && (
+        <AddRoomModal
+          onClose={() => setShowAddRoom(false)}
+          onSuccess={fetchRooms}
+        />
+      )}
     </div>
   );
 };

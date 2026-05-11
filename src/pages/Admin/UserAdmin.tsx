@@ -3,6 +3,7 @@ import { getUserPagination } from "../../api/api";
 import type { User } from "../../types/type";
 import AddAdminModal from "./AddAdminModal";
 import { deleteUser } from "../../api/api";
+import EditUserModal from "./EditUserModal";
 
 const UserAdmin = () => {
   const [users, setUsers] = useState<User[]>([]);
@@ -10,6 +11,8 @@ const UserAdmin = () => {
   const [keyword, setKeyword] = useState("");
   const [total, setTotal] = useState(0);
   const [showModal, setShowModal] = useState(false);
+  const [editUser, setEditUser] =
+    useState<User | null>(null);
 
   const fetchUsers = () => {
     getUserPagination(page, keyword)
@@ -164,7 +167,7 @@ const UserAdmin = () => {
                 <th>Avatar</th>
                 <th>Tên</th>
                 <th>Email</th>
-                <th>Phone</th>
+                <th>sđt</th>
                 <th>Role</th>
                 <th>Hành động</th>
               </tr>
@@ -198,7 +201,10 @@ const UserAdmin = () => {
                   </td>
 
                   <td>
-                    <button className="btn btn-sm btn-warning me-2">
+                    <button
+                      className="btn btn-sm btn-warning me-2"
+                      onClick={() => setEditUser(user)}
+                    >
                       Sửa
                     </button>
 
@@ -263,12 +269,22 @@ const UserAdmin = () => {
 
         </ul>
       </div>
+
       {showModal && (
         <AddAdminModal
           onClose={() => setShowModal(false)}
           onSuccess={fetchUsers}
         />
       )}
+
+      {editUser && (
+        <EditUserModal
+          user={editUser}
+          onClose={() => setEditUser(null)}
+          onSuccess={fetchUsers}
+        />
+      )}
+
     </div>
   );
 };

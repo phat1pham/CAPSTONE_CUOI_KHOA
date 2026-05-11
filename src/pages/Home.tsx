@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import SearchBar from "../components/SearchBar";
 import RoomCard from "../components/RoomCard";
-// import { RoomList } from '../types/type';
 
 export default function Home() {
   return (

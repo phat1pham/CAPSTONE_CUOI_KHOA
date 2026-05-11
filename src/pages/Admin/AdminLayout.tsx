@@ -27,7 +27,7 @@ const AdminLayout = () => {
         className="border-end p-3 bg-dark text-white"
         style={{ width: 250 }}
       >
-        <h5 className="mb-4 text-center">Admin Panel</h5>
+        <h5 className="mb-4 text-center">Airbnb</h5>
 
         <div className="d-flex flex-column gap-2">
           {menu.map((item) => (
