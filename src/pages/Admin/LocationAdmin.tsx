@@ -4,12 +4,14 @@ import {
   deleteLocation
 } from "../../api/roomApi";
 import type { Location } from "../../types/room.type";
+import AddLocationModal from "./AddLocationModal";
 
 const LocationAdmin = () => {
   const [locations, setLocations] = useState<Location[]>([]);
   const [page, setPage] = useState(1);
   const [keyword, setKeyword] = useState("");
   const [total, setTotal] = useState(0);
+  const [showAddLocation, setShowAddLocation] = useState(false);
 
   const fetchLocations = () => {
     getLocationPagination(page, keyword)
@@ -74,7 +76,10 @@ const LocationAdmin = () => {
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h3>Quản lý vị trí</h3>
 
-        <button className="btn btn-primary">
+        <button
+          className="btn btn-primary"
+          onClick={() => setShowAddLocation(true)}
+        >
           + Thêm vị trí
         </button>
       </div>
@@ -177,7 +182,12 @@ const LocationAdmin = () => {
 
         </ul>
       </div>
-
+      {showAddLocation && (
+        <AddLocationModal
+          onClose={() => setShowAddLocation(false)}
+          onSuccess={fetchLocations}
+        />
+      )}
     </div>
   );
 };

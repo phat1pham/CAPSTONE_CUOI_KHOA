@@ -99,3 +99,10 @@ export const deleteBooking = (id: number) => {
 export const createRoom = (data: any) => {
   return axiosClient.post("/phong-thue", data);
 };
+
+export const createLocation = (data: any) => {
+  return axiosClient.post(
+    "/vi-tri",
+    data
+  );
+};
