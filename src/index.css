@@ -3,3 +3,11 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
   padding: 0.5rem;
 }
+
+.my-element {
+  display: inline-block;
+  margin: 0 0.5rem;
+
+  animation: bounce; /* referring directly to the animation's @keyframe declaration */
+  animation-duration: 2s; /* don't forget to set a duration! */
+}

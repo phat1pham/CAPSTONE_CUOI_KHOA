@@ -71,7 +71,7 @@ export default function Header() {
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container">
           <Link className="navbar-brand" to="/">
-            <div className="pe-2 fs-4">
+            <div className="pe-2 fs-4 animate__animated animate__pulse">
               <i className="fab fa-airbnb pe-2"></i>
               Airbnb
             </div>

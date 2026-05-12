@@ -1,70 +1,70 @@
 .booking-card {
-    border-radius: 20px;
+  border-radius: 20px;
 }
 
 @media (max-width: 767px) {
-    .room-detail-title {
-        font-size: 24px;
-        line-height: 32px;
-    }
+  .room-detail-title {
+    font-size: 24px;
+    line-height: 32px;
+  }
 
-    .room-detail-image {
-        height: 250px !important;
-    }
+  .room-detail-image {
+    height: 250px !important;
+  }
 
-    .booking-card {
-        margin-top: 16px;
-        padding: 16px !important;
-    }
+  .booking-card {
+    margin-top: 16px;
+    padding: 16px !important;
+  }
 
-    .booking-date-group {
-        flex-direction: column;
-    }
+  .booking-date-group {
+    flex-direction: column;
+  }
 
-    .booking-date-item {
-        width: 100%;
-        border-right: none !important;
-    }
+  .booking-date-item {
+    width: 100%;
+    border-right: none !important;
+  }
 
-    .booking-date-item:last-child {
-        border-top: 1px solid #dee2e6;
-    }
+  .booking-date-item:last-child {
+    border-top: 1px solid #dee2e6;
+  }
 
-    .comment-action {
-        flex-direction: column;
-        align-items: stretch !important;
-        gap: 12px;
-    }
+  .comment-action {
+    flex-direction: column;
+    align-items: stretch !important;
+    gap: 12px;
+  }
 
-    .comment-submit-btn {
-        width: 100%;
-    }
+  .comment-submit-btn {
+    width: 100%;
+  }
 
-    .pagination {
-        flex-wrap: wrap;
-    }
+  .pagination {
+    flex-wrap: wrap;
+  }
 
-    .page-link {
-        padding: 4px 10px;
-        font-size: 14px;
-    }
+  .page-link {
+    padding: 4px 10px;
+    font-size: 14px;
+  }
 
-    .room-info {
-        font-size: 14px;
-    }
+  .room-info {
+    font-size: 14px;
+  }
 
-    .service-item {
-        font-size: 14px;
-    }
+  .service-item {
+    font-size: 14px;
+  }
 }
 
 @media (min-width: 768px) and (max-width: 991px) {
-    .booking-card {
-        max-width: 500px;
-        margin: 0 auto;
-    }
+  .booking-card {
+    max-width: 500px;
+    margin: 0 auto;
+  }
 
-    .room-detail-image {
-        height: 350px !important;
-    }
+  .room-detail-image {
+    height: 350px !important;
+  }
 }

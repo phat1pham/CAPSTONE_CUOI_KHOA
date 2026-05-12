@@ -40,7 +40,7 @@ export default function RoomCard() {
   }
 
   return (
-    <div className="row g-4">
+    <div className="row g-4 animate__animated animate__fadeInUp">
       {rooms.data.map((room) => (
         <div className="col-lg-3 col-md-6" key={room.id}>
           <Link
