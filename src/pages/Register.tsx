@@ -14,7 +14,7 @@ export default function Register() {
     phone: "",
     birthday: "",
     gender: true,
-    role: defaultRole,
+    role: defaultRole as "USER" | "ADMIN",
   });
   
   const [loading, setLoading] = useState(false);
@@ -54,7 +54,7 @@ export default function Register() {
         phone: formData.phone,
         birthday: formData.birthday,
         gender: formData.gender,
-        role: formData.role,
+        role: formData.role as "USER" | "ADMIN",
       });
 
       // After registration, redirect to login

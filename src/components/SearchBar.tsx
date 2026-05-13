@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { searchLocation } from "../api/roomApi";
 import { useNavigate } from "react-router-dom";
 import type { Location } from "../types/room.type";
+import "../pages/css/SearchBar.css";
 
 export default function SearchBar() {
   const [keyword, setKeyword] = useState("");
   const [locations, setLocations] = useState<Location[]>([]);
   const [showDropdown, setShowDropdown] = useState(false);
-  const [selectedLocation, setSelectedLocation] =
-    useState<Location | null>(null);
+  const [selectedLocation, setSelectedLocation] = useState<Location | null>(
+    null,
+  );
 
   const navigate = useNavigate();
 
@@ -26,7 +28,7 @@ export default function SearchBar() {
           const filtered = data.filter((item: Location) =>
             `${item.tenViTri} ${item.tinhThanh}`
               .toLowerCase()
-              .includes(keyword.toLowerCase())
+              .includes(keyword.toLowerCase()),
           );
 
           setLocations(filtered);
@@ -39,9 +41,7 @@ export default function SearchBar() {
 
   const handleSelect = (item: Location) => {
     setSelectedLocation(item);
-    setKeyword(
-      `${item.tenViTri}, ${item.tinhThanh}`
-    );
+    setKeyword(`${item.tenViTri}, ${item.tinhThanh}`);
     setShowDropdown(false);
   };
 
@@ -64,12 +64,9 @@ export default function SearchBar() {
         "
       >
         <div className="row g-3 align-items-center">
-
           <div className="col-12 col-md-6 col-lg">
             <div className="position-relative border rounded-pill px-3 py-2 h-100">
-              <small className="fw-bold d-block">
-                Địa điểm
-              </small>
+              <small className="fw-bold d-block">Địa điểm</small>
 
               <input
                 type="text"
@@ -80,11 +77,9 @@ export default function SearchBar() {
                 onChange={(e) => setKeyword(e.target.value)}
               />
 
-              {showDropdown &&
-                keyword &&
-                locations.length > 0 && (
-                  <div
-                    className="
+              {showDropdown && keyword && locations.length > 0 && (
+                <div
+                  className="
                       dropdown-menu
                       show
                       w-100
@@ -93,31 +88,25 @@ export default function SearchBar() {
                       rounded-4
                       border-0
                     "
-                  >
-                    {locations.map((item) => (
-                      <button
-                        key={item.id}
-                        className="dropdown-item py-2"
-                        onClick={() =>
-                          handleSelect(item)
-                        }
-                      >
-                        <i className="fa fa-location-dot me-2"></i>
-
-                        {item.tenViTri} -{" "}
-                        {item.tinhThanh}
-                      </button>
-                    ))}
-                  </div>
-                )}
+                >
+                  {locations.map((item) => (
+                    <button
+                      key={item.id}
+                      className="dropdown-item py-2"
+                      onClick={() => handleSelect(item)}
+                    >
+                      <i className="fa fa-location-dot me-2"></i>
+                      {item.tenViTri} - {item.tinhThanh}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
 
           <div className="col-6 col-md-3 col-lg">
             <div className="border rounded-pill px-3 py-2 h-100">
-              <small className="fw-bold d-block">
-                Nhận phòng
-              </small>
+              <small className="fw-bold d-block">Nhận phòng</small>
 
               <input
                 type="date"
@@ -128,9 +117,7 @@ export default function SearchBar() {
 
           <div className="col-6 col-md-3 col-lg">
             <div className="border rounded-pill px-3 py-2 h-100">
-              <small className="fw-bold d-block">
-                Trả phòng
-              </small>
+              <small className="fw-bold d-block">Trả phòng</small>
 
               <input
                 type="date"
@@ -141,9 +128,7 @@ export default function SearchBar() {
 
           <div className="col-8 col-md-6 col-lg">
             <div className="border rounded-pill px-3 py-2 h-100">
-              <small className="fw-bold d-block">
-                Khách
-              </small>
+              <small className="fw-bold d-block">Khách</small>
 
               <input
                 type="number"
@@ -168,12 +153,9 @@ export default function SearchBar() {
             >
               <i className="fa fa-search me-2"></i>
 
-              <span className="d-none d-md-inline">
-                Tìm kiếm
-              </span>
+              <span className="d-none d-md-inline">Tìm kiếm</span>
             </button>
           </div>
-
         </div>
       </div>
     </div>

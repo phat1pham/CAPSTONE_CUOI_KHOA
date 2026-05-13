@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import SearchBar from "../components/SearchBar";
 import RoomCard from "../components/RoomCard";
 

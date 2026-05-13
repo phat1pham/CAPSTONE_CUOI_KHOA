@@ -1,7 +1,8 @@
 import axiosClient from "./Axios";
 import type { User, ApiResponse } from "../types/type";
 import type { Pagination, CreateAdminPayload } from "../types/api.type";
-import type { Room } from "../types/room.type";
+// import type { Room } from "../types/room.type";
+import type { RoomList } from "../types/type";
 
 export const userService = {
   login: async (
@@ -34,7 +35,7 @@ export const userService = {
   updateProfile: async (data: Partial<User>): Promise<User> => {
     const response = await axiosClient.put<ApiResponse<User>>(
       `/users/${data.id}`,
-      data
+      data,
     );
     return response.data.content!;
   },
@@ -45,21 +46,19 @@ export const userService = {
 };
 
 export const roomService = {
-  getAllRooms: async (): Promise<Room[]> => {
-    const response = await axiosClient.get<ApiResponse<Room[]>>(
-      "/vi-tri/phan-trang-tim-kiem",
-      {
-        params: {
-          pageIndex: 1,
-          pageSize: 8,
-        },
-      },
-    );
+  getAllRooms: async (): Promise<RoomList> => {
+    try {
+      const response = await axiosClient.get(
+        "/vi-tri/phan-trang-tim-kiem?pageIndex=1&pageSize=8",
+      );
 
-    return response.data.content || [];
+      return response.data.content;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
   },
 };
-
 export const getUserPagination = (page: number, keyword: string = "") => {
   return axiosClient.get<ApiResponse<Pagination<User>>>(
     "/users/phan-trang-tim-kiem",
@@ -84,9 +83,6 @@ export const deleteUser = (id: number) => {
   return axiosClient.delete(`/users?id=${id}`);
 };
 
-export const updateUser = (
-  id: number,
-  data: Partial<User>
-) => {
+export const updateUser = (id: number, data: Partial<User>) => {
   return axiosClient.put(`/users/${id}`, data);
 };

@@ -1,5 +1,3 @@
-import React from 'react';
-
 export default function Careers() {
   return (
     <div className="container mt-5 mb-5">

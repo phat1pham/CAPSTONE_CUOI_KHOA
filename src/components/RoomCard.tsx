@@ -1,10 +1,17 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { roomService } from "../api/api";
-import type { RoomList } from "../types/type";
+import type { Room, RoomList } from "../types/type";
 
 export default function RoomCard() {
-  const [rooms, setRooms] = useState<RoomList[]>([]);
+  const [rooms, setRooms] = useState<RoomList>({
+    pageIndex: 1,
+    pageSize: 0,
+    totalRow: 0,
+    keywords: null,
+    data: [],
+  });
+
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -31,7 +38,7 @@ export default function RoomCard() {
     );
   }
 
-  if (rooms.length === 0) {
+  if (rooms.data.length === 0) {
     return (
       <div className="text-center py-5 text-muted">
         {/* Không có phòng nào để hiển thị. */}
@@ -41,7 +48,7 @@ export default function RoomCard() {
 
   return (
     <div className="row g-4 animate__animated animate__fadeInUp">
-      {rooms.data.map((room) => (
+      {rooms.data.map((room: Room) => (
         <div className="col-lg-3 col-md-6" key={room.id}>
           <Link
             to={`/roomList/${room.id}`}

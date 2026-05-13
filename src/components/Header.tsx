@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import "../pages/css/SearchBar.css";
 
 export default function Header() {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [isPagesOpen, setIsPagesOpen] = useState(false);
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const userstr = localStorage.getItem("user");
@@ -77,19 +79,31 @@ export default function Header() {
             </div>
           </Link>
 
-          <div className="collapse navbar-collapse" id="navbarPages">
-            <ul className="navbar-nav ms-auto align-items-center gap-3">
-              <li className="nav-item d-none d-md-block">
+          <button
+            type="button"
+            className="navbar-toggler d-lg-none border-0 bg-transparent"
+            aria-label="Toggle navigation"
+            onClick={() => setIsPagesOpen((prev) => !prev)}
+          >
+            <i className="fa fa-bars"></i>
+          </button>
+
+          <div
+            className={`collapse navbar-collapse ${isPagesOpen ? "show" : ""}`}
+            id="navbarPages"
+          >
+            <ul className="navbar-nav ms-auto gap-3 flex-column flex-lg-row mobile-nav-right">
+              <li className="nav-item">
                 <Link to="/" className="nav-link fw-bold">
                   Nơi ở
                 </Link>
               </li>
-              <li className="nav-item d-none d-md-block">
+              <li className="nav-item">
                 <Link to="/RoomDetail" className="nav-link fw-bold">
                   Trải nghiệm
                 </Link>
               </li>
-              <li className="nav-item d-none d-md-block">
+              <li className="nav-item">
                 <Link to="/experienceonline" className="nav-link fw-bold">
                   Trải nghiệm trực tuyện
                 </Link>
@@ -97,9 +111,12 @@ export default function Header() {
             </ul>
           </div>
 
-          <div className="collapse navbar-collapse" id="navbarContent">
-            <ul className="navbar-nav ms-auto align-items-center gap-3">
-              <li className="nav-item dropdown">
+          <div
+            className={`collapse navbar-collapse ${isPagesOpen ? "show" : ""}`}
+            id="navbarContent"
+          >
+            <ul className="navbar-nav ms-auto gap-3 flex-column flex-lg-row mobile-nav-right">
+              <li className="nav-item dropdown d-none d-lg-block">
                 {token ? (
                   <button
                     className="btn btn-light-secondary rounded-pill border-0 d-flex align-items-center gap-2"
@@ -110,7 +127,7 @@ export default function Header() {
                   </button>
                 ) : (
                   <button
-                    className="btn btn-outline-secondary rounded-pill d-flex align-items-center gap-2"
+                    className="btn btn-secondary rounded-pill d-flex align-items-center gap-2"
                     onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
                     style={{ textDecoration: "none" }}
                   >
@@ -171,6 +188,52 @@ export default function Header() {
                   </ul>
                 )}
               </li>
+              {!token && (
+                <>
+                  <li className="nav-item d-lg-none">
+                    <Link to="/login" className="dropdown-item">
+                      Đăng nhập
+                    </Link>
+                  </li>
+                  <li className="nav-item d-lg-none">
+                    <Link to="/register" className="dropdown-item">
+                      Đăng ký
+                    </Link>
+                  </li>
+                </>
+              )}
+              {token && (
+                <>
+                  <li className="nav-item d-lg-none">
+                    <Link to="/profile" className="dropdown-item">
+                      Hồ sơ
+                    </Link>
+                  </li>
+                  <li className="nav-item d-lg-none">
+                    <Link to="/bookings" className="dropdown-item">
+                      Đặt phòng của tôi
+                    </Link>
+                  </li>
+                  {userRole === true && (
+                    <li className="nav-item d-lg-none">
+                      <Link to="/admin" className="dropdown-item">
+                        Dashboard
+                      </Link>
+                    </li>
+                  )}
+                  <li className="nav-item d-lg-none">
+                    <hr className="dropdown-divider" />
+                  </li>
+                  <li className="nav-item d-lg-none">
+                    <button
+                      onClick={handleLogout}
+                      className="dropdown-item text-danger"
+                    >
+                      Đăng xuất
+                    </button>
+                  </li>
+                </>
+              )}
             </ul>
           </div>
         </div>

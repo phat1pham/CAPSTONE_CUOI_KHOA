@@ -7,7 +7,7 @@ export interface User {
   password: string;
   phone: string;
   birthday: string;
-  render: "true" | "false";
+  gender: true | false;
   role: "USER" | "ADMIN";
 }
 
@@ -17,11 +17,18 @@ export interface ApiResponse<T> {
   content?: T;
   data?: T;
 }
-
-export interface RoomList {
-  id: string;
+export type Room = {
+  id: number;
   tenViTri: string;
   tinhThanh: string;
   quocGia: string;
   hinhAnh: string;
-}
+};
+
+export type RoomList = {
+  pageIndex: number;
+  pageSize: number;
+  totalRow: number;
+  keywords: string | null;
+  data: Room[];
+};
