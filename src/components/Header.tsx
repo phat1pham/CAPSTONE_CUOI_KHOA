@@ -90,7 +90,7 @@ export default function Header() {
                 </Link>
               </li>
               <li className="nav-item d-none d-md-block">
-                <Link to="/experienceonline" className="nav-link fw-bold">
+                <Link to="/online-experience" className="nav-link fw-bold">
                   Trải nghiệm trực tuyện
                 </Link>
               </li>

@@ -19,6 +19,8 @@ import RoomAdmin from "./pages/Admin/RoomAdmin";
 import UserAdmin from "./pages/Admin/UserAdmin";
 import LocationAdmin from "./pages/Admin/LocationAdmin"
 import BookingAdmin from "./pages/Admin/BookingAdmin"
+import ExperienceViews from "./pages/ExperienceViews"
+import OnlineExperience from "./pages/OnlineExperience";
 
 import HowItWorks from "./pages/About/HowItWorks";
 import News from "./pages/About/News";
@@ -39,7 +41,6 @@ import HelpCenter from "./pages/Support/HelpCenter";
 import Safety from "./pages/Support/Safety";
 import Cancellation from "./pages/Support/Cancellation";
 import ReportIssue from "./pages/Support/ReportIssue";
-import ExperienceViews from "./pages/ExperienceViews"
 
 createRoot(document.getElementById("root")!).render(
   <Router>
@@ -57,6 +58,7 @@ createRoot(document.getElementById("root")!).render(
               <Route path="/room/:id" element={<RoomDetail />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/ExperienceViews" element={<ExperienceViews />} />
+              <Route path="/online-experience" element={<OnlineExperience />}/>
 
               <Route path="/about/how-it-works" element={<HowItWorks />} />
               <Route path="/about/news" element={<News />} />
