@@ -564,7 +564,7 @@ const RoomDetail = () => {
                             </h4>
 
                             <div>
-                                ⭐ 4.8 (18 đánh giá)
+                                ⭐ {averageRating} · {comments.length} đánh giá
                             </div>
 
                         </div>

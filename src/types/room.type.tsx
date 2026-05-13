@@ -28,6 +28,7 @@ export interface Location {
   tenViTri: string;
   tinhThanh: string;
   quocGia: string;
+  hinhAnh: string;
 }
 
 export interface Comment {
