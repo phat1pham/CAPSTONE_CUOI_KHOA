@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { searchLocation } from "../api/roomApi";
 import { useNavigate } from "react-router-dom";
 import type { Location } from "../types/room.type";

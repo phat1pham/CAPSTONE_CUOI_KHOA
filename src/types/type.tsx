@@ -7,7 +7,7 @@ export interface User {
   password: string;
   phone: string;
   birthday: string;
-  render: "true" | "false";
+  gender: boolean;
   role: "USER" | "ADMIN";
 }
 

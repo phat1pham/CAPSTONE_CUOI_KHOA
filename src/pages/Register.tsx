@@ -4,7 +4,10 @@ import { userService } from "../api/api";
 
 export default function Register() {
   const [searchParams] = useSearchParams();
-  const defaultRole = searchParams.get("role") === "admin" ? "admin" : "user";
+  const defaultRole: "USER" | "ADMIN" =
+    searchParams.get("role") === "admin"
+      ? "ADMIN"
+      : "USER";
 
   const [formData, setFormData] = useState({
     name: "",
@@ -16,7 +19,7 @@ export default function Register() {
     gender: true,
     role: defaultRole,
   });
-  
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
@@ -31,8 +34,8 @@ export default function Register() {
         name === "gender"
           ? value === "true"
           : name === "role"
-          ? value
-          : value,
+            ? value
+            : value,
     }));
   };
 
@@ -65,7 +68,7 @@ export default function Register() {
       setLoading(false);
     }
   };
-  
+
   return (
     <div className="d-flex align-items-center justify-content-center min-vh-100 bg-light py-3 px-2">
       <div className="card" style={{ maxWidth: "400px", width: "100%" }}>

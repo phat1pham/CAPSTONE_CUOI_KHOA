@@ -1,5 +1,3 @@
-import React from 'react';
-
 export default function ResourceCenter() {
   return (
     <div className="container mt-5 mb-5">
