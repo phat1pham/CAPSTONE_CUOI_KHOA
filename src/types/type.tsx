@@ -19,7 +19,7 @@ export interface ApiResponse<T> {
 }
 
 export interface RoomList {
-  id: string;
+  id: number;
   tenViTri: string;
   tinhThanh: string;
   quocGia: string;

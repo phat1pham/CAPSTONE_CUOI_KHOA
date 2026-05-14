@@ -34,14 +34,14 @@ export default function RoomCard() {
   if (rooms.length === 0) {
     return (
       <div className="text-center py-5 text-muted">
-        {/* Không có phòng nào để hiển thị. */}
+
       </div>
     );
   }
 
   return (
     <div className="row g-4 animate__animated animate__fadeInUp">
-      {rooms.data.map((room) => (
+      {rooms.map((room) => (
         <div className="col-lg-3 col-md-6" key={room.id}>
           <Link
             to={`/roomList/${room.id}`}
@@ -54,8 +54,12 @@ export default function RoomCard() {
                 className="card-img-top"
                 style={{ height: "220px", objectFit: "cover" }}
               />
+
               <div className="card-body">
-                <h5 className="card-title mb-2">{room.tenViTri}</h5>
+                <h5 className="card-title mb-2">
+                  {room.tenViTri}
+                </h5>
+
                 <p className="card-text mb-3 text-muted">
                   {room.tinhThanh}, {room.quocGia}
                 </p>
