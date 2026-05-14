@@ -46,17 +46,21 @@ export const userService = {
 
 export const roomService = {
   getAllRooms: async (): Promise<Room[]> => {
-    const response = await axiosClient.get<ApiResponse<Room[]>>(
-      "/vi-tri/phan-trang-tim-kiem",
+    const response = await axiosClient.get<
+      ApiResponse<{
+        data: Room[];
+      }>
+    >(
+      "/phong-thue/phan-trang-tim-kiem",
       {
         params: {
           pageIndex: 1,
           pageSize: 8,
         },
-      },
+      }
     );
 
-    return response.data.content || [];
+    return response.data.content?.data || [];
   },
 };
 

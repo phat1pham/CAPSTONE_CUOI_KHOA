@@ -1,20 +1,21 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { roomService } from "../api/api";
-import type { RoomList } from "../types/type";
+import { getLocation } from "../api/roomApi";
+import type { Location } from "../types/room.type";
 
-export default function RoomCard() {
-  const [rooms, setRooms] = useState<RoomList[]>([]);
+const ExperienceViews = () => {
+  const [locations, setLocations] = useState<Location[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    roomService
-      .getAllRooms()
-      .then((data) => {
-        setRooms(data);
+    getLocation()
+      .then((res) => {
+        setLocations(
+          (res.data.content || []).slice(0, 8)
+        );
       })
-      .catch((error) => {
-        console.error("Lỗi khi tải phòng:", error);
+      .catch((err) => {
+        console.log(err);
       })
       .finally(() => {
         setLoading(false);
@@ -23,51 +24,133 @@ export default function RoomCard() {
 
   if (loading) {
     return (
-      <div className="text-center py-5">
-        <div className="spinner-border text-primary" role="status">
-          <span className="visually-hidden">Đang tải...</span>
-        </div>
-      </div>
-    );
-  }
-
-  if (rooms.length === 0) {
-    return (
-      <div className="text-center py-5 text-muted">
-
+      <div className="container py-5">
+        <h3>Đang tải trải nghiệm...</h3>
       </div>
     );
   }
 
   return (
-    <div className="row g-4 animate__animated animate__fadeInUp">
-      {rooms.map((room) => (
-        <div className="col-lg-3 col-md-6" key={room.id}>
-          <Link
-            to={`/roomList/${room.id}`}
-            className="text-decoration-none text-dark"
+    <div className="container py-5">
+
+      <div
+        className="
+          text-center
+          mb-5
+          animate__animated
+          animate__backInDown
+        "
+      >
+      </div>
+
+      <div className="row g-4">
+
+        {locations.map((item, index) => (
+          <div
+            className="col-12 col-sm-6 col-lg-3"
+            key={item.id}
           >
-            <div className="card h-100 shadow-sm border-0 overflow-hidden">
-              <img
-                src={room.hinhAnh}
-                alt={room.tenViTri}
-                className="card-img-top"
-                style={{ height: "220px", objectFit: "cover" }}
-              />
+            <Link
+              to={`/roomList/${item.id}`}
+              style={{
+                textDecoration: "none",
+                color: "black",
+              }}
+            >
+              <div
+                className="
+                  card
+                  border-0
+                  shadow-sm
+                  h-100
+                  animate__animated
+                  animate__fadeInUp
+                "
+                style={{
+                  overflow: "hidden",
+                  borderRadius: "20px",
+                  transition: "0.35s",
+                  cursor: "pointer",
+                  animationDelay: `${index * 0.1}s`,
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform =
+                    "translateY(-10px)";
+                  e.currentTarget.style.boxShadow =
+                    "0 20px 40px rgba(0,0,0,0.15)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform =
+                    "translateY(0)";
+                  e.currentTarget.style.boxShadow =
+                    "";
+                }}
+              >
 
-              <div className="card-body">
-                <h5 className="card-title mb-2">
-                  {room.tenViTri}
-                </h5>
+                <div
+                  style={{
+                    overflow: "hidden",
+                    position: "relative",
+                  }}
+                >
+                  <img
+                    src={item.hinhAnh}
+                    alt={item.tenViTri}
+                    className="card-img-top"
+                    style={{
+                      height: "280px",
+                      objectFit: "cover",
+                      transition: "0.5s",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform =
+                        "scale(1.08)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform =
+                        "scale(1)";
+                    }}
+                  />
 
-                <p className="card-text mb-3 text-muted">
-                  {room.tinhThanh}, {room.quocGia}
-                </p>
+                  <div
+                    style={{
+                      position: "absolute",
+                      inset: 0,
+                      background:
+                        "linear-gradient(to top, rgba(0,0,0,0.5), transparent)",
+                    }}
+                  ></div>
+
+                  <div
+                    style={{
+                      position: "absolute",
+                      bottom: 15,
+                      left: 15,
+                      color: "white",
+                    }}
+                  >
+                    <h4 className="fw-bold mb-0">
+                      {item.tenViTri}
+                    </h4>
+                  </div>
+                </div>
+
+                <div className="card-body">
+
+                  <p className="text-muted mb-3">
+                    {item.tinhThanh} - {item.quocGia}
+                  </p>
+
+                </div>
+
               </div>
-            </div>
-          </Link>
-        </div>
-      ))}
+            </Link>
+          </div>
+        ))}
+
+      </div>
     </div>
   );
-}
+};
+
+export default ExperienceViews;
