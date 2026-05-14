@@ -70,7 +70,9 @@ const RoomList = () => {
 
         <div className="col-lg-7 col-12">
 
-          <h4 className="mb-4">
+          <h4
+            className=" mb-4 fw-bold animate__animated animate__fadeInDown "
+          >
             Chỗ ở tại khu vực đã chọn
           </h4>
 
@@ -87,25 +89,52 @@ const RoomList = () => {
                 color: "black"
               }}
             >
-              <div className="card mb-3 shadow-sm border-0">
+              <div
+                className="card mb-4 shadow-sm border-0 animate__animated animate__fadeInUp"
+                style={{
+                  borderRadius: "20px",
+                  overflow: "hidden",
+                  transition: "0.35s",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform =
+                    "translateY(-6px)";
+                  e.currentTarget.style.boxShadow =
+                    "0 20px 40px rgba(0,0,0,0.12)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform =
+                    "translateY(0)";
+                  e.currentTarget.style.boxShadow = "";
+                }}
+              >
 
                 <div className="row g-0">
 
-                  <div className="col-md-4">
+                  <div className="col-12 col-md-4">
 
                     <img
                       src={room.hinhAnh}
                       alt={room.tenPhong}
                       className="img-fluid rounded-start w-100"
                       style={{
-                        height: "220px",
-                        objectFit: "cover"
+                        height: "260px",
+                        objectFit: "cover",
+                        transition: "0.5s",
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform =
+                          "scale(1.05)";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform =
+                          "scale(1)";
                       }}
                     />
 
                   </div>
 
-                  <div className="col-md-8">
+                  <div className="col-12 col-md-8">
 
                     <div className="card-body d-flex flex-column h-100">
 
@@ -147,9 +176,8 @@ const RoomList = () => {
               <ul className="pagination">
 
                 <li
-                  className={`page-item ${
-                    page === 1 ? "disabled" : ""
-                  }`}
+                  className={`page-item ${page === 1 ? "disabled" : ""
+                    }`}
                 >
                   <button
                     className="page-link"
@@ -162,11 +190,9 @@ const RoomList = () => {
                 {getPages().map((p, index) => (
                   <li
                     key={index}
-                    className={`page-item ${
-                      page === p ? "active" : ""
-                    } ${
-                      p === "..." ? "disabled" : ""
-                    }`}
+                    className={`page-item ${page === p ? "active" : ""
+                      } ${p === "..." ? "disabled" : ""
+                      }`}
                   >
                     <button
                       className="page-link"
@@ -180,9 +206,8 @@ const RoomList = () => {
                 ))}
 
                 <li
-                  className={`page-item ${
-                    page === totalPage ? "disabled" : ""
-                  }`}
+                  className={`page-item ${page === totalPage ? "disabled" : ""
+                    }`}
                 >
                   <button
                     className="page-link"
