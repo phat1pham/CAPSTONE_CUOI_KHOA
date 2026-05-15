@@ -22,17 +22,14 @@ export default function Login() {
       password === "123456"
     ) {
       const fakeAdmin = {
-        id: 999,
-        name: "Administrator",
+        id: 1,
+        name: "Admin",
         email: "admin@gmail.com",
         role: "ADMIN",
         avatar: "",
       };
 
-      localStorage.setItem(
-        "token",
-        "fake-admin-token"
-      );
+      localStorage.setItem("token", "fake-admin-token");
 
       localStorage.setItem(
         "user",
@@ -159,8 +156,8 @@ export default function Login() {
             </button>
 
           </form>
-                
-              {/* 
+
+          {/* 
               tk/mk vào admin
               admin@gmail.com 
               123456 
