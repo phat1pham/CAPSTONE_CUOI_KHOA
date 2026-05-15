@@ -203,8 +203,6 @@ export default function Header() {
                       )
                     }
                   >
-                    <i className="fa-solid fa-bars"></i>
-
                     {renderAvatar()}
                   </button>
                 ) : (
