@@ -189,7 +189,6 @@ export default function Header() {
                   <button
                     className="
                       btn
-                      border
                       rounded-pill
                       d-flex
                       align-items-center
