@@ -16,7 +16,11 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="container-lg py-5">
+      <div className="container-lg py-5"
+        style={{
+          position: "relative",
+          zIndex: 1,
+        }}>
         <h2 className="display-5 fw-bold mb-4 animate__animated animate__fadeInLeft">
           Khám phá nhưng điểm đến gần đây
         </h2>

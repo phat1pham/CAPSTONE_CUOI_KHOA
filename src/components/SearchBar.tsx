@@ -39,9 +39,11 @@ export default function SearchBar() {
 
   const handleSelect = (item: Location) => {
     setSelectedLocation(item);
+
     setKeyword(
       `${item.tenViTri}, ${item.tinhThanh}`
     );
+
     setShowDropdown(false);
   };
 
@@ -50,23 +52,43 @@ export default function SearchBar() {
       alert("Vui lòng chọn địa điểm");
       return;
     }
+
     navigate(`/roomList/${selectedLocation.id}`);
   };
 
   return (
-    <div className="container mt-3">
+    <div
+      className="container mt-3 position-relative"
+      style={{
+        zIndex: 99999,
+      }}
+    >
       <div
         className="
           bg-white
           shadow
           rounded-4
           p-3
+          position-relative
         "
+        style={{
+          zIndex: 99999,
+        }}
       >
         <div className="row g-3 align-items-center">
 
           <div className="col-12 col-md-6 col-lg">
-            <div className="position-relative border rounded-pill px-3 py-2 h-100">
+
+            <div
+              className="
+                position-relative
+                border
+                rounded-pill
+                px-3
+                py-2
+                h-100
+              "
+            >
               <small className="fw-bold d-block">
                 Địa điểm
               </small>
@@ -77,7 +99,9 @@ export default function SearchBar() {
                 placeholder="Bạn sẽ đi đâu?"
                 value={keyword}
                 onFocus={() => setShowDropdown(true)}
-                onChange={(e) => setKeyword(e.target.value)}
+                onChange={(e) =>
+                  setKeyword(e.target.value)
+                }
               />
 
               {showDropdown &&
@@ -92,7 +116,13 @@ export default function SearchBar() {
                       shadow
                       rounded-4
                       border-0
+                      position-absolute
                     "
+                    style={{
+                      zIndex: 999999,
+                      top: "100%",
+                      left: 0,
+                    }}
                   >
                     {locations.map((item) => (
                       <button
@@ -110,11 +140,15 @@ export default function SearchBar() {
                     ))}
                   </div>
                 )}
+
             </div>
+
           </div>
 
           <div className="col-6 col-md-3 col-lg">
+
             <div className="border rounded-pill px-3 py-2 h-100">
+
               <small className="fw-bold d-block">
                 Nhận phòng
               </small>
@@ -123,11 +157,15 @@ export default function SearchBar() {
                 type="date"
                 className="form-control border-0 p-0 shadow-none"
               />
+
             </div>
+
           </div>
 
           <div className="col-6 col-md-3 col-lg">
+
             <div className="border rounded-pill px-3 py-2 h-100">
+
               <small className="fw-bold d-block">
                 Trả phòng
               </small>
@@ -136,11 +174,15 @@ export default function SearchBar() {
                 type="date"
                 className="form-control border-0 p-0 shadow-none"
               />
+
             </div>
+
           </div>
 
           <div className="col-8 col-md-6 col-lg">
+
             <div className="border rounded-pill px-3 py-2 h-100">
+
               <small className="fw-bold d-block">
                 Khách
               </small>
@@ -151,10 +193,13 @@ export default function SearchBar() {
                 placeholder="Thêm khách"
                 min={1}
               />
+
             </div>
+
           </div>
 
           <div className="col-4 col-md-6 col-lg-auto">
+
             <button
               className="
                 btn
@@ -171,7 +216,9 @@ export default function SearchBar() {
               <span className="d-none d-md-inline">
                 Tìm kiếm
               </span>
+
             </button>
+
           </div>
 
         </div>
