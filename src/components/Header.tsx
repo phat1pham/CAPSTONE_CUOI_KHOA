@@ -2,11 +2,19 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function Header() {
-  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] =
+    useState(false);
+
   const navigate = useNavigate();
+
   const token = localStorage.getItem("token");
+
   const userStr = localStorage.getItem("user");
-  const user = userStr ? JSON.parse(userStr) : null;
+
+  const user = userStr
+    ? JSON.parse(userStr)
+    : null;
+
   const userRole = user?.role === "ADMIN";
 
   const renderAvatar = () => {
@@ -26,13 +34,21 @@ export default function Header() {
 
     const name = user?.name || "User";
 
-    const firstChar = name.charAt(0).toUpperCase();
+    const firstChar = name
+      .charAt(0)
+      .toUpperCase();
 
-    const bgColor = getColorFromName(name);
+    const bgColor =
+      getColorFromName(name);
 
     return (
       <div
-        className="rounded-circle d-flex align-items-center justify-content-center"
+        className="
+          rounded-circle
+          d-flex
+          align-items-center
+          justify-content-center
+        "
         style={{
           width: 40,
           height: 40,
@@ -47,7 +63,9 @@ export default function Header() {
     );
   };
 
-  const getColorFromName = (name: string) => {
+  const getColorFromName = (
+    name: string
+  ) => {
     const colors = [
       "#f56a00",
       "#7265e6",
@@ -62,10 +80,14 @@ export default function Header() {
     let hash = 0;
 
     for (let i = 0; i < name.length; i++) {
-      hash = name.charCodeAt(i) + ((hash << 5) - hash);
+      hash =
+        name.charCodeAt(i) +
+        ((hash << 5) - hash);
     }
 
-    return colors[Math.abs(hash) % colors.length];
+    return colors[
+      Math.abs(hash) % colors.length
+    ];
   };
 
   const handleLogout = () => {
@@ -77,12 +99,24 @@ export default function Header() {
   };
 
   return (
-    <header className="sticky-top shadow-sm">
+    <header
+      className="sticky-top shadow-sm"
+      style={{
+        zIndex: 999999,
+        position: "relative",
+      }}
+    >
       <nav className="navbar navbar-expand-lg navbar-light bg-white py-3">
+
         <div className="container">
 
           <Link
-            className="navbar-brand fw-bold fs-4 text-danger"
+            className="
+              navbar-brand
+              fw-bold
+              fs-4
+              text-danger
+            "
             to="/"
           >
             <div className="animate__animated animate__pulse">
@@ -104,7 +138,14 @@ export default function Header() {
             className="collapse navbar-collapse"
             id="navbarMain"
           >
-            <ul className="navbar-nav mx-auto gap-lg-4 text-center">
+            <ul
+              className="
+                navbar-nav
+                mx-auto
+                gap-lg-4
+                text-center
+              "
+            >
 
               <li className="nav-item">
                 <Link
@@ -136,22 +177,52 @@ export default function Header() {
             </ul>
 
             <div className="d-flex justify-content-center mt-3 mt-lg-0">
-              <div className="position-relative">
+
+              <div
+                className="position-relative"
+                style={{
+                  zIndex: 999999,
+                }}
+              >
+
                 {token ? (
                   <button
-                    className="btn border rounded-pill d-flex align-items-center gap-2 px-2 py-1"
+                    className="
+                      btn
+                      border
+                      rounded-pill
+                      d-flex
+                      align-items-center
+                      gap-2
+                      px-2
+                      py-1
+                    "
                     onClick={() =>
-                      setIsUserMenuOpen(!isUserMenuOpen)
+                      setIsUserMenuOpen(
+                        !isUserMenuOpen
+                      )
                     }
                   >
                     <i className="fa-solid fa-bars"></i>
+
                     {renderAvatar()}
                   </button>
                 ) : (
                   <button
-                    className="btn border rounded-pill d-flex align-items-center gap-3 px-3 py-2"
+                    className="
+                      btn
+                      border
+                      rounded-pill
+                      d-flex
+                      align-items-center
+                      gap-3
+                      px-3
+                      py-2
+                    "
                     onClick={() =>
-                      setIsUserMenuOpen(!isUserMenuOpen)
+                      setIsUserMenuOpen(
+                        !isUserMenuOpen
+                      )
                     }
                   >
                     <i className="fa-solid fa-bars"></i>
@@ -162,16 +233,26 @@ export default function Header() {
 
                 {isUserMenuOpen && (
                   <ul
-                    className="dropdown-menu show border-0 shadow position-absolute end-0 mt-2"
+                    className="
+                      dropdown-menu
+                      show
+                      border-0
+                      shadow
+                      position-absolute
+                      end-0
+                      mt-2
+                    "
                     style={{
                       display: "block",
                       minWidth: 220,
                       borderRadius: 15,
+                      zIndex: 999999,
                     }}
                   >
 
                     {token ? (
                       <>
+
                         <li>
                           <Link
                             to="/profile"
@@ -207,15 +288,23 @@ export default function Header() {
 
                         <li>
                           <button
-                            onClick={handleLogout}
-                            className="dropdown-item text-danger py-2"
+                            onClick={
+                              handleLogout
+                            }
+                            className="
+                              dropdown-item
+                              text-danger
+                              py-2
+                            "
                           >
                             Đăng xuất
                           </button>
                         </li>
+
                       </>
                     ) : (
                       <>
+
                         <li>
                           <Link
                             to="/login"
@@ -233,6 +322,7 @@ export default function Header() {
                             Đăng ký
                           </Link>
                         </li>
+
                       </>
                     )}
 
@@ -246,6 +336,7 @@ export default function Header() {
           </div>
 
         </div>
+
       </nav>
     </header>
   );

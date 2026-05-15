@@ -20,3 +20,17 @@
 .container-lg {
   position: relative;
 }
+
+header {
+  position: relative;
+  z-index: 999999;
+}
+
+.navbar {
+  position: relative;
+  z-index: 999999;
+}
+
+.dropdown-menu {
+  z-index: 999999 !important;
+}
